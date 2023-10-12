@@ -10,7 +10,7 @@ import HotelProperties from "../../../components/hotel-list/hotel-list-v1/HotelP
 import Sidebar from "../../../components/hotel-list/hotel-list-v1/Sidebar";
 import { AllData } from "../../../features/business/listReducer";
 
-const index = () => {
+const Index = () => {
   const dispatch = useDispatch();
 
   const [dataSource, setDataSource] = useState([]);
@@ -127,4 +127,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;
