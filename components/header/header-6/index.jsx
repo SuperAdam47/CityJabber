@@ -23,7 +23,8 @@ const Header1 = () => {
   const user = useSelector((state) => state.User.user);
   console.log(user);
 
-  const token = localStorage.getItem("jwt");
+  // const token = localStorage.getItem("jwt");
+  const token = "bearer iolregqiogeiojgapoadfspojewpioj";
   const handleClose = () => {
     setSignupShow(false);
     setSigninShow(false);
@@ -55,7 +56,7 @@ const Header1 = () => {
   };
 
   const handleLogout = async () => {
-    localStorage.removeItem("jwt");
+    // localStorage.removeItem("jwt");
     Router.reload();
   };
 

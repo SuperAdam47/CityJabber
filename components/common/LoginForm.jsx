@@ -35,7 +35,8 @@ const LoginForm = (props) => {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const data = localStorage.getItem("user");
+      // const data = localStorage.getItem("user");
+      const data = { user: "123" };
       if (data) {
         Router.push("/");
       }
