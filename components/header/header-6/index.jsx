@@ -67,19 +67,25 @@ const Header1 = () => {
     window.addEventListener("scroll", changeBackground);
   }, []);
 
+  const headerStyle = {
+    backgroundColor: "#013186",
+  };
+
   return (
     <>
       {" "}
       <header
-        className={`header  ${navbar ? "bg-dark-1 is-sticky" : "bg-dark-1"}`}
+        className={`header  ${navbar ? "is-sticky" : ""}`}
+        style={headerStyle}
       >
         <div className="header__container container">
           <div className="row justify-between items-center">
             <div className="col-auto">
               <div className="d-flex items-center">
                 <Link href="/" className="header-logo mr-20">
-                  <img src="/img/general/logo-light.svg" alt="logo icon" />
-                  <img src="/img/general/logo-dark.svg" alt="logo icon" />
+                  {/* <img src="/img/general/logo-light.svg" alt="logo icon" /> */}
+                  {/* <img src="/img/general/logo-dark.svg" alt="logo icon" /> */}
+                  <img src="/img/general/CityJabber.png" alt="logo icon" />
                 </Link>
                 {/* End logo */}
               </div>

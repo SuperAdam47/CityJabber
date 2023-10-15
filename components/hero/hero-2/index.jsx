@@ -39,12 +39,12 @@ const Index = () => {
           <div className="row y-gap-40">
             <div className="col-xl-5" data-aos="fade-up" data-aos-offset="0">
               <h1 className="z-2 text-60 lg:text-40 md:text-30 text-white pt-80 xl:pt-0">
-                <span className="text-yellow-1">Where Would</span>
+                <span className="text-yellow-1">Which Business</span>
                 <br />
-                You Like To Go?
+                do you want to?
               </h1>
               <p className="z-2 text-white mt-20">
-                Checkout Beautiful Places Arround the World.
+                Please seach the businesses easily.
               </p>
 
               <MainFilterSearchBox />
