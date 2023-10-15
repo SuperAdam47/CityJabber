@@ -83,7 +83,7 @@ const FilterHotels = () => {
                           width={300}
                           height={300}
                           className="rounded-4 col-12 js-lazy"
-                          src={"/img/hotels/15.png"}
+                          src={"/img/hotels/placeholder2.png"}
                           alt={"image"}
                         />
                       </div>

@@ -75,7 +75,7 @@ const Header1 = () => {
     <>
       {" "}
       <header
-        className={`header  ${navbar ? "is-sticky" : ""}`}
+        className={`header  ${navbar ? " is-sticky" : ""}`}
         style={headerStyle}
       >
         <div className="header__container container">
@@ -116,9 +116,10 @@ const Header1 = () => {
                   <div
                     onClick={handleSigninShow}
                     className="button px-30 fw-400 text-14 border-white -outline-white h-50 text-white ml-20"
+                    style={{ backgroundColor: "#F77100" }}
                     role="button"
                   >
-                    Sign In / Register
+                    Sign In
                   </div>
                 )}
                 {/* Login Modal */}

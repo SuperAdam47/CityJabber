@@ -6,8 +6,7 @@ const TestimonialRating = () => {
         <br /> saying us?
       </h2>
       <p className="text-white mt-20">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas varius
-        tortor nibh, sit amet tempor nibh finibus et. Aenean eu enim justo.
+        Customers are very important. Customers follow customers.
       </p>
 
       <div className="row y-gap-30 text-white pt-60 lg:pt-40">

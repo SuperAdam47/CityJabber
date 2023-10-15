@@ -8,7 +8,7 @@ const Index = () => {
 
   return (
     <section className="masthead -type-2 z-2">
-      <div className="masthead__bg bg-dark-3">
+      <div className="masthead__bg " style={{ backgroundColor: "#013186" }}>
         <img alt="image" src="/img/masthead/2/bg.png" className="js-lazy" />
       </div>
       {/* End bg image */}
