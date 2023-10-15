@@ -33,7 +33,7 @@ export default function App({
 
     const handleBeforeUnload = (event) => {
       event.preventDefault();
-      // localStorage.removeItem("user");
+      localStorage.removeItem("user");
       Cookies.remove("token");
     };
 

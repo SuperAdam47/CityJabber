@@ -21,10 +21,13 @@ const Header1 = () => {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.User.user);
+  let token = "";
   console.log(user);
 
-  // const token = localStorage.getItem("jwt");
-  const token = "bearer iolregqiogeiojgapoadfspojewpioj";
+  import("local-storage").then((localStorage) => {
+    token = localStorage.getItem("jwt");
+  });
+  // const token = "bearer iolregqiogeiojgapoadfspojewpioj";
   const handleClose = () => {
     setSignupShow(false);
     setSigninShow(false);
