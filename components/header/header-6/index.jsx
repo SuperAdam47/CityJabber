@@ -85,7 +85,11 @@ const Header1 = () => {
                 <Link href="/" className="header-logo mr-20">
                   {/* <img src="/img/general/logo-light.svg" alt="logo icon" /> */}
                   {/* <img src="/img/general/logo-dark.svg" alt="logo icon" /> */}
-                  <img src="/img/general/CityJabber.png" alt="logo icon" />
+                  <img
+                    src="/img/general/CityJabber.png"
+                    style={{ width: "200px", height: "auto" }}
+                    alt="logo icon"
+                  />
                 </Link>
                 {/* End logo */}
               </div>
