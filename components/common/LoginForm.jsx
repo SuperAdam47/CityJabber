@@ -103,7 +103,7 @@ const LoginForm = (props) => {
             }}
           >
             <i className="icon-email text-15 mr-10" />
-            Continue with email and password
+            Continue with email
           </button>
         </div>
       )}

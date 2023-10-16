@@ -35,10 +35,10 @@ const LoginWithSocial = () => {
         style={{ paddingLeft: "30px", paddingRight: "30px" }}
       >
         <button
-          className="button col-12 -outline-red-1 text-black-1 py-15 rounded-8"
+          className="button col-12 -outline-blue-1 text-black-1 py-15 rounded-8"
           onClick={handleClick}
         >
-          <i className="icon-apple text-15 mr-10" />
+          <i className="icon-apple text-15 mr-10 " />
           Continue with Google
         </button>
         {showComponent && <GoogleLoginComponent />}

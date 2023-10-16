@@ -115,11 +115,12 @@ const Header1 = () => {
                 ) : (
                   <div
                     onClick={handleSigninShow}
-                    className="button px-30 fw-400 text-14 border-white -outline-white h-50 text-white ml-20"
+                    // className="button px-30 fw-400 text-14 border-white -outline-white h-50 text-white ml-20"
+                    className="button px-30 fw-400 text-14 font-weight-bold  h-50 text-white ml-20"
                     style={{ backgroundColor: "#F77100" }}
                     role="button"
                   >
-                    Sign In
+                    Sign in
                   </div>
                 )}
                 {/* Login Modal */}
@@ -130,25 +131,27 @@ const Header1 = () => {
                 >
                   <Modal.Header closeButton>
                     <Modal.Title>
-                      <h1 className="text-22 fw-500">Welcome back</h1>
+                      <h1 className="text-22 fw-500">
+                        Sign in to access the finest of CityJabber
+                      </h1>
                     </Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
+                    {/* End .Login */}
+                    {!byEmail && (
+                      <div className="row y-gap-20 mb-18 pt-16">
+                        <LoginWithSocial />
+                        <div className="col-12">
+                          <div className="text-center">or sign in with</div>
+                        </div>
+                      </div>
+                    )}
                     <LoginForm
                       byEmail={byEmail}
                       setByEmail={setByEmail}
                       handleClose={handleClose}
                     />
-                    {/* End .Login */}
-                    {!byEmail && (
-                      <div className="row y-gap-20 pt-30">
-                        <div className="col-12">
-                          <div className="text-center">or sign in with</div>
-                        </div>
-                        <LoginWithSocial />
-                      </div>
-                    )}
-                    <div className="col-12 text-center">
+                    <div className="col-12 text-center mt-20">
                       <p className="mt-10">
                         Don&apos;t have an account yet?{" "}
                         <span
