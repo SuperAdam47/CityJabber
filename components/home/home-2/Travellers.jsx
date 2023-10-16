@@ -127,7 +127,7 @@ const Travellers = () => {
                         width={300}
                         height={300}
                         className="rounded-4 col-12 js-lazy"
-                        src={"/img/hotels/placeholder.png"}
+                        src={"/img/placeholder/business.png"}
                         alt={"image"}
                       />
                     </div>
