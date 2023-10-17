@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import CallToActions from "../../components/common/CallToActions";
 import Seo from "../../components/common/Seo";
-import DefaultHeader from "../../components/header/default-header";
+import DefaultHeader from "../../components/header/header-6";
 import DefaultFooter from "../../components/footer/default";
 import WhyChoose from "../../components/block/BlockGuide";
 import Block1 from "../../components/about/Block1";
@@ -34,7 +34,6 @@ const About = () => {
             priority
           />
         </div>
-        {/* End section-bg__item */}
 
         <div className="container">
           <div className="row justify-center text-center">
@@ -43,12 +42,11 @@ const About = () => {
                 Looking for joy?
               </h1>
               <div className="text-white mt-15">
-                Your trusted trip companion
+                Your trusted trip with cityjabber
               </div>
             </div>
           </div>
         </div>
-        {/* End .container */}
       </section>
       {/* End About Banner Section */}
 
@@ -59,7 +57,7 @@ const About = () => {
               <div className="sectionTitle -md">
                 <h2 className="sectionTitle__title">Why Choose Us</h2>
                 <p className=" sectionTitle__text mt-5 sm:mt-0">
-                  These popular destinations have a lot to offer
+                  These greatest and top platform for the business
                 </p>
               </div>
             </div>
@@ -126,11 +124,10 @@ const About = () => {
           <div className="row justify-center text-center">
             <div className="col-auto">
               <div className="sectionTitle -md">
-                <h2 className="sectionTitle__title">
-                  Overheard from travelers
-                </h2>
+                <h2 className="sectionTitle__title">Overheard from users</h2>
                 <p className=" sectionTitle__text mt-5 sm:mt-0">
-                  These popular destinations have a lot to offer
+                  The happiest and greatest platform to find business what you
+                  want.
                 </p>
               </div>
             </div>

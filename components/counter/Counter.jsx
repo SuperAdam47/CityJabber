@@ -2,8 +2,8 @@ const Counter = () => {
   const blockContent = [
     {
       id: 1,
-      number: "4,958",
-      meta: "Destinations",
+      number: "28 M",
+      meta: "Businesses",
       hasUnit: "",
       delayAnim: "100",
     },
@@ -24,7 +24,7 @@ const Counter = () => {
     {
       id: 4,
       number: "574,974",
-      meta: "Our Volunteers",
+      meta: "Our followers",
       hasUnit: "",
       delayAnim: "400",
     },

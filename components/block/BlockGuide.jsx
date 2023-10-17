@@ -10,7 +10,7 @@ const BlockGuide = () => {
     {
       id: 2,
       icon: "/img/featureIcons/1/2.svg",
-      title: "Easy & Quick Booking",
+      title: "Easy & Fast Searching",
       text: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
       delayAnim: "200",
     },
