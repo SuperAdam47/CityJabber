@@ -24,10 +24,12 @@ const Header1 = () => {
   let token = "";
   console.log(user);
 
-  import("local-storage").then((localStorage) => {
-    token = localStorage.getItem("jwt");
-  });
-  // const token = "bearer iolregqiogeiojgapoadfspojewpioj";
+  // import("local-storage").then((localStorage) => {
+  //   token = localStorage.getItem("jwt");
+  // });
+
+  token = localStorage.getItem("jwt");
+
   const handleClose = () => {
     setSignupShow(false);
     setSigninShow(false);
@@ -83,8 +85,6 @@ const Header1 = () => {
             <div className="col-auto">
               <div className="d-flex items-center">
                 <Link href="/" className="header-logo mr-20">
-                  {/* <img src="/img/general/logo-light.svg" alt="logo icon" /> */}
-                  {/* <img src="/img/general/logo-dark.svg" alt="logo icon" /> */}
                   <img
                     src="/img/general/CityJabber.png"
                     style={{ width: "200px", height: "auto" }}
@@ -115,7 +115,6 @@ const Header1 = () => {
                 ) : (
                   <div
                     onClick={handleSigninShow}
-                    // className="button px-30 fw-400 text-14 border-white -outline-white h-50 text-white ml-20"
                     className="button px-30 fw-400 text-14 font-weight-bold  h-50 text-white ml-20"
                     style={{ backgroundColor: "#F77100" }}
                     role="button"
@@ -123,52 +122,66 @@ const Header1 = () => {
                     Sign in
                   </div>
                 )}
+
                 {/* Login Modal */}
                 <Modal
                   show={signinshow}
                   onHide={handleClose}
-                  className="d-flex align-items-center justify-content-center "
+                  className="d-flex align-items-center justify-content-center"
                 >
-                  <Modal.Header closeButton>
-                    <Modal.Title>
-                      <h1 className="text-22 fw-500">
-                        Sign in to access the finest of CityJabber
-                      </h1>
-                    </Modal.Title>
-                  </Modal.Header>
+                  <Modal.Header
+                    closeButton
+                    style={{ borderBottom: "none" }}
+                  ></Modal.Header>
                   <Modal.Body>
-                    {/* End .Login */}
+                    <div>
+                      {/* <img
+                        src="/img/general/CityJabber.png"
+                        style={{ width: "200px", height: "auto" }}
+                        alt="logo icon"
+                      /> */}
+                    </div>
+
                     {!byEmail && (
-                      <div className="row y-gap-20 mb-18 pt-16">
+                      <div className="row y-gap-20 mb-18 pt-16 pb-16">
+                        <h1 className="text-24 fw-800  pl-30 pr-60 mb-30">
+                          Sign in to access the finest of CityJabber
+                        </h1>
                         <LoginWithSocial />
                         <div className="col-12">
                           <div className="text-center">or sign in with</div>
                         </div>
                       </div>
                     )}
-                    <LoginForm
-                      byEmail={byEmail}
-                      setByEmail={setByEmail}
-                      handleClose={handleClose}
-                    />
-                    <div className="col-12 text-center mt-20">
-                      <p className="mt-10">
-                        Don&apos;t have an account yet?{" "}
+                    <div className="mt-10">
+                      <LoginForm
+                        byEmail={byEmail}
+                        setByEmail={setByEmail}
+                        handleClose={handleClose}
+                      />
+                    </div>
+
+                    <div className="col-12 text-center mt-10">
+                      <p className="mt-6">
                         <span
                           className="text-blue-1 "
                           style={{ cursor: "pointer" }}
                           onClick={handleSignupShow}
                         >
-                          Sign up for free
+                          Join{" "}
                         </span>
+                        {/* Don&apos;t have an account yet?{" "} */}
+                        to unlock the best of the CityJabber
                       </p>
                     </div>
                   </Modal.Body>
-                  <Modal.Footer>
+                  <Modal.Footer style={{ borderTop: "none" }}>
                     <div className="col-12">
                       <div className="text-center px-10">
-                        By creating an account, you agree to our Terms of
-                        Service and Privacy Statement.
+                        <p className="text-14">
+                          By creating an account, you agree to our Terms of
+                          Service and Privacy Statement.
+                        </p>
                       </div>
                     </div>
                   </Modal.Footer>
@@ -180,18 +193,19 @@ const Header1 = () => {
                   onHide={handleClose}
                   className="d-flex align-items-center justify-content-center "
                 >
-                  <Modal.Header closeButton>
-                    <Modal.Title>
-                      <h1 className="text-22 fw-500">Welcome to Signup</h1>
-                    </Modal.Title>
+                  <Modal.Header closeButton style={{ borderBottom: "none" }}>
+                    <Modal.Title></Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
+                    <h1 className="text-24 fw-800  pl-30 pr-60 mb-30">
+                      Join to unlock the best of the CityJabber
+                    </h1>
                     <SignUpForm
                       handleShow={handleSigninShow}
                       handleDetailShow={handleSignupDetailShow}
                     />
                   </Modal.Body>
-                  <Modal.Footer>
+                  <Modal.Footer style={{ borderTop: "none" }}>
                     <div className="col-12">
                       <div className="text-center px-10">
                         By creating an account, you agree to our Terms of

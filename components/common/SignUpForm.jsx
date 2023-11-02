@@ -63,52 +63,39 @@ const SignUpForm = (props) => {
         style={{ paddingLeft: "30px", paddingRight: "30px" }}
         onSubmit={handleSubmit}
       >
-        <div className="col-12">
-          <p className="mt-10">
-            Already have an account yet?{" "}
-            <span
-              className="text-blue-1 "
-              style={{ cursor: "pointer" }}
-              onClick={props.handleShow}
-            >
-              Sign In
-            </span>
-          </p>
-        </div>
         {/* End .col */}
 
-        <div className="col-12">
-          <div className="form-input ">
+        <div className="col-12 ">
+          <div className="form-input pr-10">
             <input type="text" ref={usernameRef} required />
             <label className="lh-1 text-14 text-light-1">User Name</label>
           </div>
         </div>
-        {/* End .col */}
-
-        <div className="col-12">
-          <div className="form-input ">
+        <div className="col-12 ">
+          <div className="form-input">
             <input type="text" ref={emailRef} required />
             <label className="lh-1 text-14 text-light-1">Email</label>
           </div>
         </div>
         {/* End .col */}
 
-        <div className="col-12">
-          <div className="form-input ">
-            <input type="password" ref={passwordRef} required />
-            <label className="lh-1 text-14 text-light-1">Password</label>
+        <div className="col-12 d-flex">
+          <div className="col-md-6 pr-10">
+            <div className="form-input ">
+              <input type="password" ref={passwordRef} required />
+              <label className="lh-1 text-14 text-light-1">Password</label>
+            </div>
+          </div>
+          <div className="col-md-6 pl-10">
+            <div className="form-input ">
+              <input type="password" ref={confirmpasswordRef} required />
+              <label className="lh-1 text-14 text-light-1">
+                Confirm Password
+              </label>
+            </div>
           </div>
         </div>
-        {/* End .col */}
 
-        <div className="col-12">
-          <div className="form-input ">
-            <input type="password" ref={confirmpasswordRef} required />
-            <label className="lh-1 text-14 text-light-1">
-              Confirm Password
-            </label>
-          </div>
-        </div>
         {/* End .col */}
 
         <div className="col-12">
@@ -120,7 +107,19 @@ const SignUpForm = (props) => {
             Next <div className="icon-arrow-top-right ml-15" />
           </button>
         </div>
-
+        <div className="col-12">
+          <p className="mt-10">
+            Already a member?{" "}
+            <span
+              className="text-blue-1 "
+              style={{ cursor: "pointer" }}
+              onClick={props.handleShow}
+            >
+              Sign In{" "}
+            </span>
+            using your Tripadvisor account.
+          </p>
+        </div>
         {/* End .col */}
       </form>
 

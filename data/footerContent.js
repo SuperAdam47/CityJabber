@@ -3,7 +3,7 @@ module.exports = [
     id: 1,
     title: "Company",
     menuList: [
-      { name: "About Us", routerPath: "/" },
+      { name: "About Us", routerPath: "/others-pages/about" },
       { name: "Careers", routerPath: "/" },
       { name: "Blog", routerPath: "/" },
       { name: "Press", routerPath: "/" },

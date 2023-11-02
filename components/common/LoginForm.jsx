@@ -34,13 +34,17 @@ const LoginForm = (props) => {
   };
 
   useEffect(() => {
-    import("local-storage").then((localStorage) => {
-      const data = localStorage.getItem("user");
-      // const data = { user: "123" };
-      if (data) {
-        Router.push("/");
-      }
-    });
+    // import("local-storage").then((localStorage) => {
+    //   const data = localStorage.getItem("user");
+    //   if (data) {
+    //     Router.push("/");
+    //   }
+    // });
+
+    const data = localStorage.getItem("user");
+    if (data) {
+      Router.push("/");
+    }
   }, []);
 
   return (
@@ -52,8 +56,9 @@ const LoginForm = (props) => {
           onSubmit={handleSubmit}
         >
           {/* End .col */}
-
+          <h1 className="text-24 fw-800  pl-30 pr-60 mb-30">Welcome back!</h1>
           <div className="col-12">
+            <p>Email Address</p>
             <div className="form-input ">
               <input type="text" required ref={emailRef} />
               <label className="lh-1 text-14 text-light-1">Email</label>
@@ -62,6 +67,7 @@ const LoginForm = (props) => {
           {/* End .col */}
 
           <div className="col-12">
+            <p>Password</p>
             <div className="form-input ">
               <input type="password" required ref={passwordRef} />
               <label className="lh-1 text-14 text-light-1">Password</label>
@@ -69,7 +75,7 @@ const LoginForm = (props) => {
           </div>
           {/* End .col */}
 
-          <div className="col-12 text-right">
+          <div className="col-12 text-left">
             <a href="#" className="text-14 fw-500 text-blue-1 underline">
               Forgot your password?
             </a>
@@ -97,13 +103,15 @@ const LoginForm = (props) => {
           style={{ paddingLeft: "15px", paddingRight: "15px" }}
         >
           <button
-            className="button col-12 -outline-blue-1 text-black-1 py-15 rounded-8 "
+            className="flex-row  align-items-center button col-12 -outline-blue-1 text-black-1 py-15 rounded-8 "
             onClick={() => {
               props.setByEmail(true);
             }}
           >
-            <i className="icon-email text-15 mr-10" />
-            Continue with email
+            <div className="col-md-1">
+              <i className="icon-email text-15 ml-10 float-left" />
+            </div>
+            <div className="col-md-11">Continue with email</div>
           </button>
         </div>
       )}
