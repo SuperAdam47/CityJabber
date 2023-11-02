@@ -34,17 +34,17 @@ const LoginForm = (props) => {
   };
 
   useEffect(() => {
-    // import("local-storage").then((localStorage) => {
-    //   const data = localStorage.getItem("user");
-    //   if (data) {
-    //     Router.push("/");
-    //   }
-    // });
+    import("local-storage").then((localStorage) => {
+      const data = localStorage.getItem("user");
+      if (data) {
+        Router.push("/");
+      }
+    });
 
-    const data = localStorage.getItem("user");
-    if (data) {
-      Router.push("/");
-    }
+    // const data = localStorage.getItem("user");
+    // if (data) {
+    //   Router.push("/");
+    // }
   }, []);
 
   return (

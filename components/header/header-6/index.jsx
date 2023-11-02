@@ -24,11 +24,11 @@ const Header1 = () => {
   let token = "";
   console.log(user);
 
-  // import("local-storage").then((localStorage) => {
-  //   token = localStorage.getItem("jwt");
-  // });
+  import("local-storage").then((localStorage) => {
+    token = localStorage.getItem("jwt");
+  });
 
-  token = localStorage.getItem("jwt");
+  // token = localStorage.getItem("jwt");
 
   const handleClose = () => {
     setSignupShow(false);
