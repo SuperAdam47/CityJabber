@@ -56,11 +56,11 @@ const SignupDetail = (props) => {
   return (
     <div style={{ padding: "15px" }}>
       <div className="col-12">
-        <h1 className="text-19 fw-500 text-danger text-center">
-          Welcome to Signup!
+        <h1 className="text-19 fw-500 pt-24 text-center">
+          Welcome to CityJabber!
         </h1>
-        <div className="text-center px-10 text-20 ">
-          Complete your profile so others can find you.
+        <div className=" text-16 pt-15 ">
+          Let others see who you are by completing the following:
         </div>
       </div>
       <form className="row y-gap-20 pt-20" onSubmit={handlesSubmit}>
