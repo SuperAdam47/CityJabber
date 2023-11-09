@@ -24,11 +24,11 @@ const Header1 = () => {
   let token = "";
   console.log(user);
 
-  // import("local-storage").then((localStorage) => {
-  //   token = localStorage.getItem("jwt");
-  // });
+  import("local-storage").then((localStorage) => {
+    token = localStorage.getItem("jwt");
+  });
 
-  token = localStorage.getItem("jwt");
+  // token = localStorage.getItem("jwt");
 
   const handleClose = () => {
     setSignupShow(false);
@@ -208,8 +208,10 @@ const Header1 = () => {
                   <Modal.Footer style={{ borderTop: "none" }}>
                     <div className="col-12">
                       <div className="text-center px-10">
-                        By creating an account, you agree to our Terms of
-                        Service and Privacy Statement.
+                        <p className="text-14">
+                          By creating an account, you agree to our Terms of
+                          Service and Privacy Statement.
+                        </p>
                       </div>
                     </div>
                   </Modal.Footer>
@@ -226,7 +228,6 @@ const Header1 = () => {
                       handleSignin={handleSigninShow}
                     ></SignupDetail>
                   </Modal.Body>
-                  <Modal.Footer></Modal.Footer>
                 </Modal>
               </div>
             </div>

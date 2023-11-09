@@ -107,9 +107,9 @@ const SignUpForm = (props) => {
             Next <div className="icon-arrow-top-right ml-15" />
           </button>
         </div>
-        <div className="col-12">
+        <div className="col-12 text-center">
           <p className="mt-10">
-            Already a member?{" "}
+            Already a member?{"  "}
             <span
               className="text-blue-1 "
               style={{ cursor: "pointer" }}
@@ -117,7 +117,7 @@ const SignUpForm = (props) => {
             >
               Sign In{" "}
             </span>
-            using your Tripadvisor account.
+            using your CityJabber account.
           </p>
         </div>
         {/* End .col */}
