@@ -1,6 +1,0 @@
-{
-    "editor.formatOnSave": true,
-    "editor.formatOnType": false,
-    "diffEditor.experimental.showEmptyDecorations": false,
-    "diffEditor.hideUnchangedRegions.enabled": false
-}
