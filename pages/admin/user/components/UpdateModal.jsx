@@ -6,7 +6,8 @@ import { useRef } from "react";
 import DatePicker, { DateObject } from "react-multi-date-picker";
 
 import "react-datepicker/dist/react-datepicker.css";
-import { update_me } from "../../services/auth";
+// import { update_me } from "../../services/auth";
+import { update_me } from "../../../../services/auth";
 import { registerLocale } from "react-datepicker";
 import enUS from "date-fns/locale/en-US";
 registerLocale("en-US", enUS);
@@ -21,7 +22,9 @@ const SignupDetail = (props) => {
     e.preventDefault();
 
     const selectedGender = genderInputRef.current.value;
-    const selectedBirthdate = selectedDate.toLocaleString("default", { year: "numeric" });
+    const selectedBirthdate = selectedDate.toLocaleString("default", {
+      year: "numeric",
+    });
 
     // Example: You can send this data to your backend for user registration
     const body = new FormData();
@@ -29,7 +32,7 @@ const SignupDetail = (props) => {
     body.append("gender", selectedGender);
     body.append("birthday", selectedBirthdate);
 
-    console.log("form", body)
+    console.log("form", body);
 
     const res = await update_me(body);
 
