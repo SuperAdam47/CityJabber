@@ -25,10 +25,7 @@ export const update_me = async (formData) => {
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/updateUser`,
       {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        body: formData,
       }
     );
     const data = res.json();

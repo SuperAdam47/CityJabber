@@ -13,18 +13,22 @@ import DefaultFooter from "../../../components/footer/footer-6";
 import Link from "next/link";
 import RatingTag from "../../../components/hotel-single/RatingTag";
 import Overview from "../../../components/hotel-single/Overview";
-import PopularFacilities from "../../../components/hotel-single/PopularFacilities";
 import axios from "axios";
+import PopularFacilities from "../../../components/hotel-single/PopularFacilities";
+import { ToastContainer, toast } from "react-toastify";
+import Router from "next/router";
+
 const HotelSingleV1Dynamic = () => {
   const [dataSource, setDataSource] = useState({});
   const [review, setReview] = useState({
+    rTitle: "",
     rContent: "",
     rating: 0,
   });
   const router = useRouter();
   const id = router.query.id;
 
-  const { userData } = useSelector((state) => state.User);
+  const userData = useSelector((state) => state.User?.user);
   const handleItem = async () => {
     const res = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/business/${id}`
@@ -73,15 +77,22 @@ const HotelSingleV1Dynamic = () => {
     return stars;
   };
 
-  const handleChange = (e) => {
+  const handleChangeTitle = (e) => {
+    setReview({ ...review, rTitle: e.target.value });
+  };
+
+  const handleChangeContent = (e) => {
     setReview({ ...review, rContent: e.target.value });
   };
   const addReview = () => {
     if (userData !== null) {
       const data = {
         id: id,
-        user: userData._id,
+        user: userData?._id,
+        avatar: userData?.avatar,
+        username: userData?.username,
         rDate: new Date(),
+        rTitle: review.rTitle,
         rContent: review.rContent,
         rating: review.rating,
       };
@@ -89,15 +100,23 @@ const HotelSingleV1Dynamic = () => {
         .post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/review`, data)
         .then((res) => {
           setReview({
+            rTitle: "",
             rContent: "",
             rating: 0,
           });
+
+          alert(res.data.message);
+          // setTimeout(() => {
+          //   // props.handleClose();
+          //   Router.push("/");
+          // }, 1000);
         })
         .catch((err) => console.log(err));
     } else {
       alert("plz, login");
     }
   };
+
   return (
     <>
       <Seo pageTitle="Hotel Single v1" />
@@ -325,14 +344,14 @@ const HotelSingleV1Dynamic = () => {
       <section className="pt-40" id="reviews">
         <div className="container">
           <div className="pt-40">
-            <DetailsReview />
+            <DetailsReview reviews={dataSource.reviews} />
             {/* End review with details */}
           </div>
 
           <div className="row pt-30">
             <div className="col-auto">
               <a href="#" className="button -md -outline-blue-1 text-blue-1">
-                Show all 116 reviews{" "}
+                Show all {dataSource?.reviews?.length} reviews
                 <div className="icon-arrow-top-right ml-15"></div>
               </a>
             </div>
@@ -354,12 +373,23 @@ const HotelSingleV1Dynamic = () => {
                 </div>
 
                 <div>{rating()}</div>
+                <div className="form-input" style={{marginBottom: "15px"}}>
+                  <textarea
+                    required
+                    rows={1}
+                    value={review.rTitle}
+                    onChange={handleChangeTitle}
+                  />
+                  <label className="lh-1 text-16 text-light-1">
+                    Write Your Title
+                  </label>
+                </div>
                 <div className="form-input">
                   <textarea
                     required
                     rows={6}
                     value={review.rContent}
-                    onChange={handleChange}
+                    onChange={handleChangeContent}
                   />
                   <label className="lh-1 text-16 text-light-1">
                     Write Your Comment

@@ -11,6 +11,7 @@ import SignupDetail from "../../../components/common/SignupDetail";
 import Router from "next/router";
 import Image from "next/image";
 import AvatarDropdown from "./UserAvatar";
+import { UserSlice } from "../../../features/auth/userslice";
 
 const Header1 = () => {
   const [navbar, setNavbar] = useState(false);
@@ -18,11 +19,11 @@ const Header1 = () => {
   const [signupShow, setSignupShow] = useState(false);
   const [signupDetailShow, setsignupDetailShow] = useState(false);
   const [byEmail, setByEmail] = useState(false);
+  const { initiateUser } = UserSlice.actions;
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.User.user);
   let token = "";
-  console.log(user);
 
   import("local-storage").then((localStorage) => {
     token = localStorage.getItem("jwt");
@@ -61,8 +62,8 @@ const Header1 = () => {
   };
 
   const handleLogout = async () => {
-    // localStorage.removeItem("jwt");
-    Router.reload();
+    localStorage.removeItem("jwt");
+    dispatch(initiateUser({ user: {} }));
   };
 
   useEffect(() => {
@@ -106,10 +107,14 @@ const Header1 = () => {
                 </div>
                 {/* End header-menu */}
 
-                {token ? (
+                {user._id ? (
                   <AvatarDropdown
                     username={user?.finalData?.user?.username}
-                    avatarUrl={"/img/avatars/1.png"}
+                    avatarUrl={
+                      user.avatar
+                        ? user.avatar
+                        : "/img/avatars/user_people_icon.svg"
+                    }
                     handleLogout={handleLogout}
                   />
                 ) : (
@@ -226,6 +231,7 @@ const Header1 = () => {
                   <Modal.Body>
                     <SignupDetail
                       handleSignin={handleSigninShow}
+                      handleClose={handleClose}
                     ></SignupDetail>
                   </Modal.Body>
                 </Modal>

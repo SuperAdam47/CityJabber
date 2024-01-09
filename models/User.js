@@ -13,15 +13,44 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  avatar: {
+  firstname: {
     type: String,
   },
+  lastname: {
+    type: String,
+  },
+  avatar: {
+    type: Object,
+  },
   birthday: {
-    type: Date,
+    type: String,
+    default: ""
   },
   gender: {
     type: String,
   },
+  role: {
+    type: String,
+    default: "user"
+  },
+  aboutMe: {
+    type: String,
+  },
+  location: {
+    type: String,
+  },
+  phonenumber: {
+    type: String,
+  },
+  facebook: {
+    type: String,
+  },
+  twitter: {
+    type: String,
+  },
+  isBanned: {
+    type: Boolean,
+  }
 });
 const User = mongoose.models.User || mongoose.model("User", UserSchema);
 

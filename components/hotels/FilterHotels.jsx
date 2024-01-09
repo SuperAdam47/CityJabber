@@ -18,10 +18,10 @@ const FilterHotels = () => {
   }, []);
 
   useEffect(() => {
-    if (businessData.getAllData !== undefined) {
-      setDataSource(businessData.getAllData);
+    if (businessData?.getAllData !== undefined) {
+      setDataSource(businessData?.getAllData);
     }
-  }, [businessData.getAllData]);
+  }, [businessData?.getAllData]);
 
   var itemSettings = {
     dots: true,
