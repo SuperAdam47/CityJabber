@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { useRef } from "react";
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { UserSlice } from "../../features/auth/userslice";
 import { useRouter } from "next/navigation";
 import { register_me } from "../../services/auth";
 import { ToastContainer, toast } from "react-toastify";
@@ -18,10 +20,32 @@ const SignUpForm = (props) => {
   }, [router]);
 
   ////// Hook ref
+  const { initiateUser } = UserSlice.actions
+  const dispatch = useDispatch();
+
   const usernameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
   const confirmpasswordRef = useRef();
+  const [gender, setGender] = useState('');
+
+  const toSignDetail = (e) => {
+    e.preventDefault();
+
+    const username = usernameRef.current.value;
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+    const confirmpassword = confirmpasswordRef.current.value;
+    if (password == confirmpassword) {
+      dispatch(initiateUser({ user: {
+        username: username,
+        email: email,
+        password: password,
+        gender: gender
+      } }))
+      props?.handleDetailShow();
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,7 +61,7 @@ const SignUpForm = (props) => {
         email: email,
         password: password,
         avatar: "",
-        bitrthday: "1999-01-01",
+        birthday: "1999-01-01",
         gender: "",
       };
 
@@ -46,7 +70,7 @@ const SignUpForm = (props) => {
       if (res.success) {
         toast.success(res.message);
         setTimeout(() => {
-          props.handleShow();
+          props?.handleDetailShow();
           router.push("/");
         }, 2000);
       } else {
@@ -61,7 +85,8 @@ const SignUpForm = (props) => {
       <form
         className="row y-gap-20 pr-10 pl-10"
         style={{ paddingLeft: "30px", paddingRight: "30px" }}
-        onSubmit={handleSubmit}
+        // onSubmit={handleSubmit}
+        onSubmit={toSignDetail}
       >
         {/* End .col */}
 
@@ -101,7 +126,7 @@ const SignUpForm = (props) => {
         <div className="col-12">
           <button
             type="submit"
-            href="#"
+            // onclock={toSignDetail}
             className="button py-20 -dark-1 bg-blue-1 text-white w-100"
           >
             Next <div className="icon-arrow-top-right ml-15" />

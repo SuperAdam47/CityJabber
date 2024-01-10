@@ -4,6 +4,12 @@ import { useRef } from "react";
 // import DatePicker from "react-datepicker";
 
 import DatePicker, { DateObject } from "react-multi-date-picker";
+import { useSelector, useDispatch } from "react-redux";
+import { UserSlice } from "../../features/auth/userslice";
+import { register_me } from "../../services/auth";
+import { ToastContainer, toast } from "react-toastify";
+import { login } from "../../features/auth/userslice";
+import Router from "next/router";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { update_me } from "../../services/auth";
@@ -13,43 +19,94 @@ registerLocale("en-US", enUS);
 
 const SignupDetail = (props) => {
   const avatarInputRef = useRef(null);
-  const genderInputRef = useRef(null);
+  const [selectedGender, setSelectedGender] = useState('male');
   const [avatar, setAvatar] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
+  const user = useSelector((state) => state.User?.user);
+  const [base64Image, setBase64Image] = useState('');
+  const { initiateUser } = UserSlice.actions
+  const dispatch = useDispatch();
+
+  const handleRadioChange = (event) => {
+    setSelectedGender(event.target.value);
+  };
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const base64 = reader.result;
+      setBase64Image(base64);
+    };
+
+    if (file) {
+      setAvatar(file)
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handlesSubmit = async (e) => {
     e.preventDefault();
 
-    const selectedGender = genderInputRef.current.value;
     const selectedBirthdate = selectedDate.toLocaleString("default", { year: "numeric" });
 
-    // Example: You can send this data to your backend for user registration
-    const body = new FormData();
-    body.append("file", avatar);
-    body.append("gender", selectedGender);
-    body.append("birthday", selectedBirthdate);
+    const filename = 'avatar_' + Date.now() + '.png';
+    const filepath = '/img/avatars/' + filename;
 
-    console.log("form", body)
-
-    const res = await update_me(body);
+    let registerData = {
+      username: user.username,
+      email: user.email,
+      password: user.password,
+      avatar: base64Image,
+      birthday: selectedBirthdate,
+      gender: selectedGender,
+      filepath: 'public' + filepath
+    };
+    
+    const res = await register_me(registerData);
 
     if (res.success) {
       toast.success(res.message);
-      setTimeout(() => {
-        router.push("/");
-      }, 2000);
+      // setTimeout(() => {
+      //   // props?.handleDetailShow();
+      //   router.push("/");
+      // }, 2000);
+      dispatch(initiateUser({ user: {
+        username: user.username,
+        email: user.email,
+        password: user.password,
+        avatar: base64Image,
+        birthday: selectedBirthdate,
+        gender: selectedGender,
+        filepath
+      } }))
+      let loginData = {
+        email: user.email,
+        password: user.password,
+      };
+      dispatch(login(loginData))
+      .then(() => {
+        setTimeout(() => {
+          props.handleClose();
+          Router.push("/");
+        }, 1000);
+      })
+      .catch((err) => toast.error(err.message));
     } else {
       toast.error(res.message);
     }
+
     props.handleSignin();
+    
   };
 
-  const handleAvatarChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setAvatar(file);
-    }
-  };
+  // const handleAvatarChange = (event) => {
+  //   const file = event.target.files[0];
+  //   if (file) {
+  //     setAvatar(file);
+  //   }
+  // };
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -73,7 +130,7 @@ const SignupDetail = (props) => {
               src={avatar && URL.createObjectURL(avatar)}
               alt="Avatar Preview"
               className="border border-5 rounded-circle p-1"
-              style={{ maxWidth: "140px" }}
+              style={{ width: "140px", height: "140px" }}
             />
           ) : (
             <img
@@ -112,7 +169,7 @@ const SignupDetail = (props) => {
               <input
                 type="file"
                 accept="image/*"
-                onChange={handleAvatarChange}
+                onChange={handleImageChange}
                 style={{ display: "none" }}
                 ref={avatarInputRef}
               />
@@ -150,7 +207,8 @@ const SignupDetail = (props) => {
                     type="radio"
                     name="rating"
                     value="male"
-                    ref={genderInputRef}
+                    checked={selectedGender === 'male'}
+                    onChange={handleRadioChange}
                   />
                   <div className="radio__mark">
                     <div className="radio__icon" />
@@ -165,7 +223,8 @@ const SignupDetail = (props) => {
                     type="radio"
                     name="rating"
                     value="female"
-                    ref={genderInputRef}
+                    checked={selectedGender === 'female'}
+                    onChange={handleRadioChange}
                   />
                   <div className="radio__mark">
                     <div className="radio__icon" />

@@ -24,7 +24,6 @@ const Header1 = () => {
 
   const user = useSelector((state) => state.User.user);
   let token = "";
-  console.log(user);
 
   // import("local-storage").then((localStorage) => {
   //   token = localStorage.getItem("jwt");
@@ -228,6 +227,7 @@ const Header1 = () => {
                   <Modal.Body>
                     <SignupDetail
                       handleSignin={handleSigninShow}
+                      handleClose={handleClose}
                     ></SignupDetail>
                   </Modal.Body>
                 </Modal>

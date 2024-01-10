@@ -12,13 +12,7 @@ const Sidebar = () => {
       icon: "/img/dashboard/sidebar/compass.svg",
       name: "Setting",
       routePath: "/user/setting",
-    },
-    {
-      id: 2,
-      icon: "/img/dashboard/sidebar/compass.svg",
-      name: "Busines Claim",
-      routePath: "/user/businessclaim",
-    },
+    }
   ];
   return (
     <div className="sidebar -dashboard">

@@ -20,7 +20,6 @@
     "date-fns": "^2.30.0",
     "eslint": "8.35.0",
     "eslint-config-next": "13.2.3",
-    "file-saver": "^2.0.5",
     "formidable": "^3.5.1",
     "fs": "^0.0.1-security",
     "google-map-react": "^2.2.0",

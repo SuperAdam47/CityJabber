@@ -81,20 +81,33 @@ const HotelProperties = ({ listData }) => {
                   <div className="row x-gap-10 y-gap-10 items-center">
                     <div className="col-md">
                       <h3 className="text-18 lh-16 fw-500">
-                        {i + (currentPage - 1) * selectedItem + 1}.&nbsp;
-                        {item?.BusinessName} &nbsp;
-                        <div className="d-inline-block">
-                          <i className="icon-star text-15 text-yellow-2"></i>
-                          <i className="icon-star text-15 text-yellow-2"></i>
-                          <i className="icon-star text-15 text-yellow-2"></i>
-                          <i className="icon-star text-15 text-yellow-2"></i>
-                          <i className="icon-star text-15 text-yellow-2"></i>
+                        <Link href={`/hotel/${item._id}`} >
+                          {i + (currentPage - 1) * selectedItem + 1}.&nbsp;
+                          {item?.BusinessName} &nbsp;
+                        </Link>{" "}
+                        
+                        <div className="d-flex">
+                          <div style={{backgroundColor: "#f77100", borderRadius: "50%", border: "solid, gray, 01px", display: "flex", justifyContent: "center", alignItems: "center", padding: "5px"}}>
+                            <i className="icon-star text-15 text-white" />
+                          </div>
+                          <div style={{backgroundColor: "#f77100", borderRadius: "50%", border: "solid, gray, 01px", display: "flex", justifyContent: "center", alignItems: "center", padding: "5px"}}>
+                            <i className="icon-star text-15 text-white" />
+                          </div>
+                          <div style={{backgroundColor: "#f77100", borderRadius: "50%", border: "solid, gray, 01px", display: "flex", justifyContent: "center", alignItems: "center", padding: "5px"}}>
+                            <i className="icon-star text-15 text-white" />
+                          </div>
+                          <div style={{backgroundColor: "#f77100", borderRadius: "50%", border: "solid, gray, 01px", display: "flex", justifyContent: "center", alignItems: "center", padding: "5px"}}>
+                            <i className="icon-star text-15 text-white" />
+                          </div>
+                          <div style={{backgroundColor: "#f77100", borderRadius: "50%", border: "solid, gray, 01px", display: "flex", justifyContent: "center", alignItems: "center", padding: "5px"}}>
+                            <i className="icon-star text-15 text-white" />
+                          </div>
                         </div>{" "}
                         <br className="lg:d-none" />
                       </h3>
-                      <h3 className="text-15 lh-12 fw-500">
+                      {/* <h3 className="text-15 lh-12 fw-500">
                         {item?.Address}, {item?.City}
-                      </h3>
+                      </h3> */}
                     </div>
                     <div className="col-md-auto text-right md:text-left">
                       <div className="row x-gap-10 y-gap-10 justify-end items-center md:justify-start">
@@ -116,9 +129,12 @@ const HotelProperties = ({ listData }) => {
                   </div>
                   <div className="row x-gap-10 y-gap-10 items-center">
                     <div className="col-auto">
-                      <p className="text-15">
+                      {/* <p className="text-15">
                         {item?.SIC2Category} / {item?.SIC4Category} /
                         {item?.SIC8Category}{" "}
+                      </p> */}
+                      <p className="text-15">
+                        {item?.SIC2Category}
                       </p>
                     </div>
                   </div>

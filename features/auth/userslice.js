@@ -13,7 +13,6 @@ export const register = createAsyncThunk("auth/register", async (formdata) => {
 export const login = createAsyncThunk("auth/login", async (formData) => {
   try {
     const response = await login_me(formData);
-    console.log("formData", response);
     return response;
   } catch (error) {
     console.log(error);
@@ -32,7 +31,7 @@ const authSlice = createSlice({
     initiateUser(state, action) {
       state.isLoggedIn = false
       state.user = action.payload.user
-      console.log("state======", state.user, action)
+
     }
   },
   extraReducers: {

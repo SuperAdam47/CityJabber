@@ -20,10 +20,11 @@ const UserSchema = new mongoose.Schema({
     type: String,
   },
   avatar: {
-    type: String,
+    type: Object,
   },
   birthday: {
-    type: Date,
+    type: String,
+    default: ""
   },
   gender: {
     type: String,

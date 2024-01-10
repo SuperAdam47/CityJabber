@@ -7,9 +7,18 @@ const BusinessSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
       },
+      avatar: {
+        type: String
+      },
+      username: {
+        type: String
+      },
       rDate: {
         type: Date,
         required: true,
+      },
+      rTitle: {
+        type: String,
       },
       rContent: {
         type: String,

@@ -15,6 +15,7 @@ export default async (req, res) => {
   const { email, password } = req.body;
   const { error } = schema.validate({ email, password });
 
+
   if (error)
     return res.status(401).json({
       success: false,
@@ -35,12 +36,13 @@ export default async (req, res) => {
       return res
         .status(401)
         .json({ success: false, message: "Incorrect Password" });
-
+        
     const token = jwt.sign(
       { id: checkUser._id, email: checkUser.email },
       process.env.JWT_SECRET,
       { expiresIn: "2h" }
     );
+
 
     const finalData = { token, user: checkUser };
     return res

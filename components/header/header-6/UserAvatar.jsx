@@ -23,10 +23,6 @@ const AvatarDropdown = ({ username, avatarUrl, handleLogout }) => {
         <Dropdown.Item href="#settings">
           <Link href="/user/setting"> Account Settings</Link>
         </Dropdown.Item>
-        <Dropdown.Item href="#settings">
-          <Link href="/user/businessclaim"> Business Claim</Link>
-        </Dropdown.Item>
-
         {/* <Dropdown.Item href="#Colletions">My Collections</Dropdown.Item>
         <Dropdown.Item href="#">About Me</Dropdown.Item> */}
 
