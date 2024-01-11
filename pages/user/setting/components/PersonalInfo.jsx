@@ -50,7 +50,7 @@ const PersonalInfo = () => {
     const twitter = twitterRef.current.value
 
     const selectedGender = maleInputRef.current.checked ? maleInputRef.current.value : femaleInputRef.current.value
-    const selectedBirthdate = selectedDate.toLocaleString("default", { year: "numeric" });
+    const selectedBirthdate = selectedDate.toLocaleString("default", { year: "numeric", month: "short", day: "numeric" });
 
     // Example: You can send this data to your backend for user registration
     // const body = new FormData();

@@ -8,6 +8,8 @@ export default async (req, res) => {
   // Validate the request body
   let { id, username, firstname, lastname, email, avatar, filepath, phonenumber, location, aboutMe, facebook, twitter, gender, birthday } = req.body;
 
+  console.log('birthday=>', req.body);
+
   const base64Data = avatar.replace(/^data:image\/\w+;base64,/, '');
   const imageBuffer = Buffer.from(base64Data, 'base64');
   avatar && fs.writeFile('public' + filepath, imageBuffer, 'base64', function (err) {

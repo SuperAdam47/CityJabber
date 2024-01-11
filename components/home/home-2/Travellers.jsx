@@ -95,8 +95,12 @@ const Travellers = () => {
                     <Image
                       width={50}
                       height={50}
-                      src={"/img/avatars/1.png"}
-                      alt={"item.username"}
+                      // src={"/img/avatars/1.png"}
+                      src={!item.reviews
+                            ? "/img/avatars/1.png"
+                            : item.reviews[0]?.user?.avatar
+                          }
+                      // alt={"item.username"}
                       className="size-50 rounded-22 object-cover "
                     />
                   </div>
@@ -104,9 +108,13 @@ const Travellers = () => {
                     <div className="text-15 fw-500 lh-14">
                       {!item.reviews
                         ? "Dennis Cheeseman"
+                        : item.reviews[0]?.user?.username
+                      }
+                      {/* {!item.reviews
+                        ? "Dennis Cheeseman"
                         : item.reviews.map((item1) => {
                             return item1?.user?.username;
-                          })}
+                          })} */}
                     </div>
                     <div className="text-14 lh-14 text-light-1 mt-5">
                       {item.designation}
