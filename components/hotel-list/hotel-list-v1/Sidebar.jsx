@@ -4,12 +4,18 @@ import SearchBox from "../sidebar/SearchBox";
 import PopularFilters from "../sidebar/PopularFilters";
 import AminitesFilter from "../sidebar/AminitesFilter";
 import RatingsFilter from "../sidebar/RatingsFilter";
+import CategoryFilter from "../sidebar/CategoryFilter";
 import GuestRatingFilters from "../sidebar/GuestRatingFilters";
 import StyleFilter from "../sidebar/StyleFilter";
 import NeighborhoddFilter from "../sidebar/NeighborhoddFilter";
 import PirceSlider from "../sidebar/PirceSlider";
 
-const Sidebar = () => {
+const Sidebar = ({handleCategoryLevel}) => {
+  const handleCategoryL = level => {
+    let newLevelSet = level.filter(v => v.active).map(v => v.category)
+    handleCategoryLevel(newLevelSet)
+  }
+
   return (
     <>
       <div className="sidebar__item -no-border position-relative">
@@ -22,6 +28,13 @@ const Sidebar = () => {
         <SearchBox />
       </div>
       {/* End search box */}
+
+      <div className="sidebar__item">
+        <h5 className="text-18 fw-500 mb-10">Category</h5>
+        <div className="row x-gap-10 y-gap-10 pt-10">
+          <CategoryFilter handleCategoryLevel={handleCategoryL} />
+        </div>
+      </div>
 
       <div className="sidebar__item">
         <h5 className="text-18 fw-500 mb-10">Deals</h5>

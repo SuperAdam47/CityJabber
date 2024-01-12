@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const MainFilterSearchBox = ({ handleChangeData, data, handleSearch }) => {
+
   // const [suggestions, setSuggestions] = useState([]);
   const handleChange = async (e) => {
     handleChangeData({ ...data, [e.target.name]: e.target.value });

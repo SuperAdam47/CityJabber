@@ -4,33 +4,46 @@ import Seo from "../../../../components/common/Seo";
 import Header11 from "../../../../components/header/header-6";
 import CallToActions from "../../../../components/common/CallToActions";
 import DefaultFooter from "../../../../components/footer/footer-6";
+import { setDayOfYear } from "date-fns";
 const FileUpload = () => {
   const [files, setFile] = useState([]);
-  const [message, setMessage] = useState();
+  const [message, setMessage] = useState('');
+  const [base64Image, setBase64Image] = useState([]);
+  const [images, setImages] = useState([]);
 
   const router = useRouter();
   const id = router.query.id;
 
   const handleFile = (e) => {
-    setMessage("");
-    let file = e.target.files;
+    const files = e.target.files[0];
 
-    for (let i = 0; i < file.length; i++) {
-      const fileType = file[i]["type"];
-      const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
-      if (validImageTypes.includes(fileType)) {
-        setFile([...files, file[i]]);
-      } else {
-        setMessage("only images accepted");
-      }
+    console.log('files==>', files);
+
+    for (let i = 0; i < files.length; i++) {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        const newBase64Images = [...base64Image, e.target.result];
+        setBase64Image(newBase64Images);
+      };
+
+      reader.readAsDataURL(files[i]);
     }
+
+    setFile(files);
   };
+
+  const handleImages = base64Img => {
+    setImages([...images, base64Img])
+  }
 
   const removeImage = (i) => {
     setFile(files.filter((x) => x.name !== i));
   };
 
   const handleUpload = async () => {
+    console.log('files===>', files);
+    console.log('images===>', images);
     const formData = new FormData();
 
     files.forEach((file) => {
@@ -140,7 +153,7 @@ const FileUpload = () => {
                     <img
                       className="w-20 rounded-md"
                       style={{ height: "100px" }}
-                      src={URL.createObjectURL(file)}
+                      src={URL?.createObjectURL(file)}
                     />
                   </div>
                 );

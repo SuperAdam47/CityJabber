@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { addCurrentTab } from "../../../features/hero/findPlaceSlice";
 import MainFilterSearchBox from "./MainFilterSearchBox";
+import SelectFilter from '../../../components/hotels/filter-tabs/SelectFilter'
 
 const Index = () => {
   const { tabs, currentTab } = useSelector((state) => state.hero) || {};
@@ -48,7 +49,6 @@ const Index = () => {
               </p>
 
               <MainFilterSearchBox />
-
               {/* End filter content */}
             </div>
             {/* End .col */}

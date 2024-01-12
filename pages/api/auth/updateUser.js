@@ -8,19 +8,17 @@ export default async (req, res) => {
   // Validate the request body
   let { id, username, firstname, lastname, email, avatar, filepath, phonenumber, location, aboutMe, facebook, twitter, gender, birthday } = req.body;
 
-  console.log('birthday=>', req.body);
+  // const base64Data = avatar.replace(/^data:image\/\w+;base64,/, '');
+  // const imageBuffer = Buffer.from(base64Data, 'base64');
+  // avatar && fs.writeFile('public' + filepath, imageBuffer, 'base64', function (err) {
+  //   if (err) {
+  //     // Handle error
+  //     return res.status(500).send('Error occurred while saving the image.');
+  //   }
 
-  const base64Data = avatar.replace(/^data:image\/\w+;base64,/, '');
-  const imageBuffer = Buffer.from(base64Data, 'base64');
-  avatar && fs.writeFile('public' + filepath, imageBuffer, 'base64', function (err) {
-    if (err) {
-      // Handle error
-      return res.status(500).send('Error occurred while saving the image.');
-    }
-
-    // Image saved successfully
-    avatar = filepath;
-  });
+  //   // Image saved successfully
+  //   avatar = filepath;
+  // });
 
   try {
     // Update the user's information in the database
@@ -37,7 +35,8 @@ export default async (req, res) => {
       twitter,
       birthday,
       gender,
-      avatar: filepath,
+      avatar,
+      // avatar: filepath,
     }, { new: true }) :
       updatedUser = await User.findByIdAndUpdate(id, {
         username,

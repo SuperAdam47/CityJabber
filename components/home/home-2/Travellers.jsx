@@ -51,6 +51,14 @@ const Travellers = () => {
     );
   }
 
+  let stars = [
+    <i className="icon-star text-10 text-yellow-2"></i>, 
+    <i className="icon-star text-10 text-yellow-2"></i>, 
+    <i className="icon-star text-10 text-yellow-2"></i>, 
+    <i className="icon-star text-10 text-yellow-2"></i>, 
+    <i className="icon-star text-10 text-yellow-2"></i>, 
+  ]
+
   return (
     <div className="pt-40 overflow-hidden js-section-slider">
       <Swiper
@@ -160,7 +168,7 @@ const Travellers = () => {
                 <h4 className="text-18 lh-13 fw-500 text-dark-1">
                   {item?.BusinessName}
                 </h4>
-                <div className="text-14 text-light-1">
+                {/* <div className="text-14 text-light-1">
                   Rating:{item.rating}
                   <div className="d-inline-block ml-10">
                     <i className="icon-star text-10 text-yellow-2"></i>
@@ -169,6 +177,12 @@ const Travellers = () => {
                     <i className="icon-star text-10 text-yellow-2"></i>
                     <i className="icon-star text-10 text-yellow-2"></i>
                   </div>
+                </div> */}
+                <div className="text-14 text-light-1">
+                  Rating:{!item.reviews
+                            ? ""
+                            : stars.slice(0, item?.reviews.Rated)
+                          }
                 </div>
 
                 {/* <div className="text-14 text-light-1">

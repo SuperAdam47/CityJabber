@@ -17,6 +17,7 @@ const Index = () => {
   const [searchData, setSearchData] = useState({
     city: "",
     category: "",
+    categoryLevel: [],
     state: "",
   });
   const { listData } = useSelector((state) => state.List);
@@ -27,11 +28,14 @@ const Index = () => {
   const Search = () => {
     dispatch(AllData(searchData));
   };
+  const handleCategoryLevel = (level) => {
+    setSearchData({...searchData, categoryLevel: level})
+  };
   useEffect(() => {
-    if (listData.getAllData !== undefined) {
-      setDataSource(listData.getAllData);
+    if (listData?.getAllData !== undefined) {
+      setDataSource(listData?.getAllData);
     }
-  }, [listData.getAllData]);
+  }, [listData?.getAllData]);
 
   return (
     <>
@@ -69,7 +73,7 @@ const Index = () => {
           <div className="row y-gap-30">
             <div className="col-xl-3">
               <aside className="sidebar y-gap-40 xl:d-none">
-                <Sidebar />
+                <Sidebar handleCategoryLevel={handleCategoryLevel} />
               </aside>
               {/* End sidebar for desktop */}
 
