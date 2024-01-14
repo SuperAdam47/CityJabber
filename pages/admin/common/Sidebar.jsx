@@ -15,9 +15,15 @@ const Sidebar = () => {
     },
     {
       id: 2,
-      icon: "/img/dashboard/sidebar/booking.svg",
+      icon: "/img/dashboard/icons/2.svg",
       name: " User ",
       routePath: "/admin/user",
+    },
+    {
+      id: 3,
+      icon: "/img/dashboard/sidebar/hotel.svg",
+      name: " Business ",
+      routePath: "/admin/business",
     }
   ];
   return (

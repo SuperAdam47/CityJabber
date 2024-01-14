@@ -10,8 +10,14 @@ const Sidebar = () => {
     {
       id: 1,
       icon: "/img/dashboard/sidebar/compass.svg",
-      name: "Setting",
+      name: "User Setting",
       routePath: "/user/setting",
+    },
+    {
+      id: 2,
+      icon: "/img/dashboard/sidebar/hotel.svg",
+      name: "Business Adding",
+      routePath: "/user/business-adding",
     }
   ];
   return (

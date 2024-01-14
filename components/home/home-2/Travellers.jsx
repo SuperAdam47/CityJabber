@@ -149,7 +149,7 @@ const Travellers = () => {
                     </div>
                   </div>
                 ) : (
-                  item.BImage.split(",").map((slide, i) => (
+                  item.BImage && item.BImage.split(",,").map((slide, i) => (
                     <div className="cardImage ratio ratio-1:1" key={i}>
                       <div className="cardImage__content ">
                         <Image

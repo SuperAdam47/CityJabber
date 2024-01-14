@@ -1,46 +1,59 @@
 import { useEffect, useRef, useState } from "react";
-import Pagination from "../../common/Pagination";
 import ActionsButton from "./ActionsButton";
-import { getUsers, deleteUser, updateUser } from "../../../../services/admin/user";
+import { getBusinesses, deleteBusiness } from "../../../../services/admin/business";
 import Image from "next/image";
 import Modal from "react-bootstrap/Modal";
 import Dropdown from "./Dropdown";
 import { ToastContainer, toast } from "react-toastify";
+import Paginations from "../../common/Pagination";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper";
+import BusinessUpdateModal from "./BusinessUpdateModal";
 
-const UserTable = () => {
+const BusinessTable = () => {
   const [activeTab, setActiveTab] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1)
-  const [users, setUsers] = useState([])
+  const [businesses, setBusinesses] = useState([])
   const [modalShow, setModalShow] = useState(false)
-  const [modalInfoShow, setModalInfoShow] = useState(false)
-  const [selectedUserId, setSelectedUserId] = useState(1)
-  const [isHovered, setIsHovered] = useState('');
-  const [isAction, setIsAction] = useState(false);
-  
+  const [modalBusinessShow, setModalBusinessShow] = useState(false)
+  const [selectedBusinessId, setSelectedBusinessId] = useState(1)
+  const [isHovered, setIsHovered] = useState('')
+  const [isAction, setIsAction] = useState(false)
+
   const [selectedRole, setSeletedRole] = useState(null)
   const activeRef = useRef(null)
   const banRef = useRef(null)
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedItem, setSelectedItem] = useState(10);
+
+  const handleItemClick = (value) => {
+    setSelectedItem(value);
+  };
+  const onChange = (value) => {
+    setCurrentPage(value);
+  };
 
   const handleTabClick = (index) => {
     setActiveTab(index);
   };
 
   const tabItems = [
-    "All Users",
-    "Banned",
+    "All Businesses",
+    "Required Businesses",
   ];
 
-  const getUsersInPage = async (page) => {
-    const res = await getUsers(page)
+  const getBusinessesInPage = async (page) => {
+    const res = await getBusinesses(page)
     if (res.success) {
       setTotalPage(res.totalPages)
-      setUsers(res.users)
+      setBusinesses(res.businesses)
     }
+    console.log('res', res.businesses);
   }
 
   useEffect(() => {
-    getUsersInPage()
+    getBusinessesInPage()
   }, [])
 
   const handleMouseEnter = (id) => {
@@ -48,28 +61,27 @@ const UserTable = () => {
   };
 
   const handleTagClick = (pageIndex) => {
-    getUsersInPage(pageIndex)
+    getBusinessesInPage(pageIndex)
     setCurrentPage(pageIndex)
   }
 
   const handleUpdate = (id) => {
-    setSelectedUserId(id)
+    setSelectedBusinessId(id)
     setModalShow(true)
 
   }
 
-  const showUserInfo = (id) => {
+  const showBusinessInfo = (id) => {
     
     !isAction && (
-      setSelectedUserId(id),
-      setModalInfoShow(true)
+      setSelectedBusinessId(id),
+      setModalBusinessShow(true)
     )
-
   }
 
   const handleDelete = async (id) => {
-    const res = await deleteUser(id)
-    console.log(res)
+    const res = await deleteBusiness(id)
+
     if (res.success) {
       toast.success(res.message);
       handleTagClick(currentPage)
@@ -80,8 +92,8 @@ const UserTable = () => {
     setModalShow(false)
   }
 
-  const handleInfoClose = () => {
-    setModalInfoShow(false)
+  const handleBusinessClose = () => {
+    setModalBusinessShow(false)
   }
 
   const handleSubmit = async (e) => {
@@ -92,7 +104,7 @@ const UserTable = () => {
     const res = await updateUser(body)
     if (res.success) {
       toast.success(res.message);
-      handleTagClick(currentPage)
+      // handleTagClick(currentPage)
     }
     setModalShow(false)
   }
@@ -101,9 +113,7 @@ const UserTable = () => {
     setSeletedRole(option)
   }
 
-  const chnageUserInfo = () => {
-
-  }
+  
 
   return (
     <>
@@ -130,33 +140,69 @@ const UserTable = () => {
                 <thead className="bg-light-2">
                   <tr>
                     <th> </th>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Status</th>
+                    <th>Businessname</th>
+                    <th>Industry</th>
+                    <th>Address</th>
+                    <th>Phone</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {
-                    users.map(({ _id, username, email, avatar, role, isBanned }, index) =>
-                      <tr key={_id} onClick={() => showUserInfo(index)} onMouseEnter={() => handleMouseEnter(_id)} id={_id}  style={{ backgroundColor: isHovered === _id ? 'lightblue' : 'white' }}>
-                        <td>
-                          <Image
-                            width={50}
-                            height={50}
-                            src={avatar}
-                            alt={username}
-                            className="size-50 rounded-22 object-cover"
-                          /></td>
-                        <td>{username}</td>
-                        <td>{email}</td>
-                        <td>{role}</td>
-                        <td>
+                    businesses.map(({ _id, BusinessName, Industry, Address, Phone, BImage }, index) =>
+                      <tr key={_id} onClick={() => showBusinessInfo(index)} onMouseEnter={() => handleMouseEnter(_id)} id={_id}  style={{ backgroundColor: isHovered === _id ? 'lightblue' : 'white' }}>
+                        <td onMouseEnter={() => setIsAction(true)} onMouseLeave={() => setIsAction(false)} >
+                          <div className="col-md-auto">
+                            <div className="cardImage ratio ratio-1:1 w-200 md:w-1/1 rounded-4">
+                              <div className="cardImage__content">
+                                <div className="cardImage-slider rounded-4  custom_inside-slider">
+                                  <Swiper
+                                    className="mySwiper"
+                                    modules={[Pagination, Navigation]}
+                                    pagination={{
+                                      clickable: true,
+                                    }}
+                                    navigation={true}
+                                  >
+                                    {BImage === null ? (
+                                      <SwiperSlide>
+                                        <Image
+                                          width={250}
+                                          height={350}
+                                          className="rounded-4 col-12 js-lazy"
+                                          src={"/img/hotels/1.png"}
+                                          alt="image"
+                                        />
+                                      </SwiperSlide>
+                                    ) : (
+                                      BImage && BImage.split(",,").map((slide, i) => (
+                                        <SwiperSlide key={i}>
+                                          <Image
+                                            width={250}
+                                            height={350}
+                                            className="rounded-4 col-12 js-lazy"
+                                            src={slide}
+                                            alt="image"
+                                          />
+                                        </SwiperSlide>
+                                      ))
+                                    )}
+                                  </Swiper>
+                                </div>
+                              </div>
+                              {/* End image */}
+                            </div>
+                          </div>
+                        </td>
+                        <td>{BusinessName}</td>
+                        <td>{Industry}</td>
+                        <td>{Address}</td>
+                        <td>{Phone}</td>
+                        {/* <td>
                           <span className={`rounded-100 py-4 px-10 text-center text-14 fw-500 ` + (isBanned ? 'bg-error-1 text-error-2' : 'bg-success-1 text-success-2')}>
                             {isBanned ? "Banned" : "Active"}
                           </span>
-                        </td>
+                        </td> */}
                         <td onMouseEnter={() => setIsAction(true)} onMouseLeave={() => setIsAction(false)} > 
                           <ActionsButton onDelete={handleDelete} onUpdate={handleUpdate} id={_id} index={index}  />
                         </td>
@@ -168,7 +214,7 @@ const UserTable = () => {
           </div>
         </div>
       </div>
-      <Modal
+      {/* <Modal
         show={modalShow}
         onHide={handleClose}
         className="d-flex align-items-center justify-content-center"
@@ -263,137 +309,32 @@ const UserTable = () => {
           </div>
         </Modal.Body>
 
-      </Modal>
+      </Modal> */}
 
       <Modal
-        show={modalInfoShow}
-        onHide={handleInfoClose}
+        show={modalBusinessShow}
+        onHide={handleBusinessClose}
         className="d-flex align-items-center justify-content-center"
         size='lg'
       >
         <Modal.Header
           closeButton
           style={{ borderBottom: "none" }}
-        > <Modal.Title>User Information</Modal.Title></Modal.Header>
+        > <Modal.Title>Business Information</Modal.Title></Modal.Header>
         <Modal.Body>
-          <div className="col-12 text-center mt-10">
-          <form>
-        <div className="row y-gap-30 items-center">
-          <div className="d-flex">
-            <div className="d-flex ratio ratio-1:1 w-200 mr-20">
-              <Image
-                width={200}
-                height={200}
-                src={users[selectedUserId]?.avatar ? users[selectedUserId]?.avatar : "/img/avatars/user_people_icon.svg"}
-                // src="/uploads/6581896618f6bbf20dd734c0.png"
-                alt="avatar"
-                className="img-ratio rounded-4"
-              />
-            </div>
-            <div className="row x-gap-20 y-gap-20 text-left">
-                <h4>
-                  {users[selectedUserId]?.username}
-                </h4>
-                <h5>
-                  {users[selectedUserId]?.email}
-                </h5>
-                <h5>
-                  {users[selectedUserId]?.role}
-                </h5>
-            </div>
-        </div>
-
-        <div className="border-top-light mt-30 mb-30" />
-
-          
-            {/* End col-12 */}
-
-            <div className="col-md-6">
-              <div className="form-input ">
-                <input value={users[selectedUserId]?.firstname} name="firstname" type="text" required />
-                <label className="lh-1 text-16 text-light-1">First Name</label>
-              </div>
-            </div>
-            {/* End col-6 */}
-
-            <div className="col-md-6">
-              <div className="form-input ">
-                <input value={users[selectedUserId]?.lastname} name="lastname" type="text" required />
-                <label className="lh-1 text-16 text-light-1">Last Name</label>
-              </div>
-            </div>
-            {/* End col-6 */}
-
-            <div className="col-md-6">
-              <div className="form-input ">
-                <input value={users[selectedUserId]?.phonenumber} name="phone_number" type="text" />
-                <label className="lh-1 text-16 text-light-1">
-                  Phone Number
-                </label>
-              </div>
-            </div>
-
-            <div className="col-md-6">
-              <div className="form-input ">
-                <input value={users[selectedUserId]?.location} name="location" type="text" />
-                <label className="lh-1 text-16 text-light-1">
-                  Location
-                </label>
-              </div>
-            </div>
-            {/* End col-6 */}
-
-            <div className="col-md-6">
-              <div className="form-input ">
-                <input value={users[selectedUserId]?.birthday} name="birthday" type="text" />
-                <label className="lh-1 text-16 text-light-1">
-                  Birthday
-                </label>
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="form-input ">
-                <input value={users[selectedUserId]?.gender} name="gender" type="text" />
-                <label className="lh-1 text-16 text-light-1">
-                  Gender
-                </label>
-              </div>
-            </div>
-            {/* End col-6 */}
-
-            <div className="col-md-6">
-              <div className="form-input ">
-                <input value={users[selectedUserId]?.facebook} name="facebook" type="text" />
-                <label className="lh-1 text-16 text-light-1">facebook</label>
-              </div>
-            </div>
-            {/* End col-6 */}
-
-            <div className="col-md-6">
-              <div className="form-input ">
-                <input value={users[selectedUserId]?.twitter} name="twitter" type="text" />
-                <label className="lh-1 text-16 text-light-1">
-                  Twitter
-                </label>
-              </div>
-            </div>
-
-          </div>
-        {/* End col-xl-9 */}
-        <div className="d-inline-block pt-30">
-          <button
-            className="button h-50 px-24 -dark-1 bg-blue-1 text-white"
-            onClick={chnageUserInfo}
-          >
-            Chnage UserInfo <div className="icon-arrow-top-right ml-15" />
-          </button>
-        </div>
-      </form >
-          </div>
+          <BusinessUpdateModal dataSource={businesses[selectedBusinessId]} closeModal={handleBusinessClose} update={handleTagClick} current={currentPage} />
         </Modal.Body>
 
       </Modal>
-      <Pagination currentPage={currentPage} handleTagClick={handleTagClick} totalPage={totalPage} />
+
+      <Paginations
+        length={businesses?.length}
+        handleValue={onChange}
+        currentPage={currentPage}
+        handleItemClick={handleItemClick}
+        selectedItem={selectedItem}
+      />
+      {/* <Pagination currentPage={currentPage} handleTagClick={handleTagClick} totalPage={totalPage} /> */}
       <ToastContainer />
     </>
   );
@@ -401,5 +342,5 @@ const UserTable = () => {
 
 
 
-export default UserTable;
+export default BusinessTable;
 

@@ -51,7 +51,7 @@ const HotelProperties = ({ listData }) => {
                               />
                             </SwiperSlide>
                           ) : (
-                            item.BImage.split(",").map((slide, i) => (
+                            item.BImage && item.BImage.split(",,").map((slide, i) => (
                               <SwiperSlide key={i}>
                                 <Image
                                   width={250}

@@ -6,7 +6,7 @@ import CallToActions from "../../../../components/common/CallToActions";
 import DefaultFooter from "../../../../components/footer/footer-6";
 import { setDayOfYear } from "date-fns";
 const FileUpload = () => {
-  const [files, setFile] = useState([]);
+  const [files, setFiles] = useState([]);
   const [message, setMessage] = useState('');
   const [base64Image, setBase64Image] = useState([]);
   const [images, setImages] = useState([]);
@@ -15,11 +15,9 @@ const FileUpload = () => {
   const id = router.query.id;
 
   const handleFile = (e) => {
-    const files = e.target.files[0];
+    const file = e.target.files
 
-    console.log('files==>', files);
-
-    for (let i = 0; i < files.length; i++) {
+    for (let i = 0; i < file.length; i++) {
       const reader = new FileReader();
 
       reader.onload = (e) => {
@@ -27,10 +25,17 @@ const FileUpload = () => {
         setBase64Image(newBase64Images);
       };
 
-      reader.readAsDataURL(files[i]);
+      reader.readAsDataURL(file[i]);
+
+      const fileType = file[i]["type"];
+      const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+      if (validImageTypes.includes(fileType)) {
+        setFiles([...files, file[i]]);
+      } else {
+        setMessage("only images accepted");
+      }
     }
 
-    setFile(files);
   };
 
   const handleImages = base64Img => {
@@ -38,12 +43,11 @@ const FileUpload = () => {
   }
 
   const removeImage = (i) => {
-    setFile(files.filter((x) => x.name !== i));
+    setFiles(files.filter((x) => x.name !== i));
+
   };
 
   const handleUpload = async () => {
-    console.log('files===>', files);
-    console.log('images===>', images);
     const formData = new FormData();
 
     files.forEach((file) => {
@@ -63,7 +67,7 @@ const FileUpload = () => {
       if (response.ok) {
         // Handle successful upload
         console.log("Files uploaded successfully.");
-        setFile([]);
+        setFiles([]);
       } else {
         // Handle upload failure
         console.error("Upload failed.");
