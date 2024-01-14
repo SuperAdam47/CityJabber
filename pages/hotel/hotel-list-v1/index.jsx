@@ -107,7 +107,7 @@ const Index = () => {
             {/* End col */}
 
             <div className="col-xl-9 ">
-              <TopHeaderFilter />
+              <TopHeaderFilter listData={dataSource} />
               <div className="mt-30"></div>
               {/* End mt--30 */}
               <div className="row y-gap-30">

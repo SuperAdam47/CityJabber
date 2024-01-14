@@ -6,21 +6,32 @@ export default async (req, res) => {
 
   let { city, categoryLevel, category, state } = req.body;
 
-  try {
-    const getAllData = await Business.find({
-      City: { $regex: city, $options: "i" },
-      StateCode: "AK",
-      $or: categoryLevel.map(level => ({
-        [level]: { $regex: category, $options: "i" }
-      }))
-      // $or: [
-      //   { SIC2Category: { $regex: category, $options: "i" } },
-      //   { SIC4Category: { $regex: category, $options: "i" } },
-      //   { SIC8Category: { $regex: category, $options: "i" } },
-      // ],
+  console.log('categoryLevel==>',)
 
-    }).limit(10000);
+  try {
+    let getAllData = [];
+    if (categoryLevel.length !== 0) {
+      getAllData = await Business.find({
+        City: { $regex: city, $options: "i" },
+        // StateCode: "AK",
+        $or: categoryLevel.map(level => ({
+          [level]: { $regex: category, $options: "i" }
+        }))
+        // $or: [
+        //   { SIC2Category: { $regex: category, $options: "i" } },
+        //   { SIC4Category: { $regex: category, $options: "i" } },
+        //   { SIC8Category: { $regex: category, $options: "i" } },
+        // ],
+      }).limit(10000);
+    } else {
+      getAllData = await Business.find({
+        City: { $regex: city, $options: "i" },
+        // StateCode: "AK",
+      }).limit(10000);
+    }
+
     if (!getAllData) {
+      console.log('getAllData==>', getAllData);
       return res
         .status(401)
         .json({ success: false, message: "Data not found!" });
@@ -30,7 +41,7 @@ export default async (req, res) => {
       .status(200)
       .json({ success: true, message: "Successfully!", getAllData });
   } catch (error) {
-    console.log("Error in search business (server) => ", error);
+    console.log("Error in register (server) => ", error);
     return res.status(500).json({
       success: false,
       message: "Something went wrong! Please retry later !",
