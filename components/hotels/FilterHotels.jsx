@@ -3,25 +3,27 @@ import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import Link from "next/link";
 import Slider from "react-slick";
-
 import isTextMatched from "../../utils/isTextMatched";
-import { AllData } from "../../features/business/restaurantReducer";
+import { getBusinessesByCategory } from '../../services/business';
 
-const FilterHotels = () => {
+
+const FilterHotels = ({selectedCategory}) => {
   const dispatch = useDispatch();
+  const [businesses, setBusinesses] = useState([])
 
-  const [dataSource, setDataSource] = useState([]);
-  const { businessData } = useSelector((state) => state.Business);
-
-  useEffect(() => {
-    dispatch(AllData());
-  }, []);
-
-  useEffect(() => {
-    if (businessData?.getAllData !== undefined) {
-      setDataSource(businessData?.getAllData);
+  const getBusinesses = async () => {
+    const res = await getBusinessesByCategory(selectedCategory)
+    if(res.success) {
+      setBusinesses(res.businesses)
     }
-  }, [businessData?.getAllData]);
+  }
+
+  useEffect(() => {
+    if (!selectedCategory) <h1>Loading...</h1>;
+    else {
+      getBusinesses()
+    }
+  }, [selectedCategory]);
 
   var itemSettings = {
     dots: true,
@@ -57,7 +59,7 @@ const FilterHotels = () => {
 
   return (
     <>
-      {dataSource.slice(0, 8).map((item, index) => (
+      {businesses.slice(0, 8).map((item, index) => (
         <div
           className="col-xl-3 col-lg-3 col-sm-6"
           key={item?._id}
@@ -89,7 +91,7 @@ const FilterHotels = () => {
                       </div>
                     </div>
                   ) : (
-                    item.BImage.split(",").map((slide, i) => (
+                    item.BImage && item.BImage.split(",,").map((slide, i) => (
                       <div className="cardImage ratio ratio-1:1" key={i}>
                         <div className="cardImage__content ">
                           <Image
@@ -138,7 +140,30 @@ const FilterHotels = () => {
                 </div>
               </div>
             </div>
-            <div className="d-flex items-center mt-20">
+            
+            <div className="hotelsCard__content mt-10">
+              <h4 className="hotelsCard__title text-dark-1 text-18 lh-16 fw-500">
+                <span>{item?.BusinessName}</span>
+              </h4>
+              <p className="text-light-1 lh-14 text-14 mt-5">
+                {item?.Address}
+              </p>
+              <p className="text-light-1 lh-14 text-14 mt-5">
+                {item?.City},&nbsp;&nbsp;{item?.StateCode}
+              </p>
+              <div className="mt-5">
+                <div className="fw-500">
+                  <span className="text-light-1">{item?.SIC2Category}</span>
+                </div>
+              </div>
+              <div className="mt-5">
+                <div className="fw-500">
+                  
+                  <span className="text-blue-1">{item?.AnnualRevenue}</span>
+                </div>
+              </div>
+              
+              <div className="d-flex items-center mt-20">
               <div className="flex-center bg-blue-1 rounded-4 size-30 text-12 fw-600 text-white">
                 {5}
               </div>
@@ -147,29 +172,6 @@ const FilterHotels = () => {
               </div>
               <div className="text-14 text-light-1 ml-10">{1500} reviews</div>
             </div>
-            <div className="hotelsCard__content mt-10">
-              <h4 className="hotelsCard__title text-dark-1 text-18 lh-16 fw-500">
-                <span>{item?.BusinessName}</span>
-              </h4>
-              <p className="text-light-1 lh-14 text-14 mt-5">
-                {item?.Address},&nbsp;&nbsp;{item?.City}
-              </p>
-              <div className="mt-5">
-                <div className="fw-500">
-                  <span className="text-light-1">{item?.MarketVariable}</span>
-                </div>
-              </div>
-              <div className="mt-5">
-                <div className="fw-500">
-                  Annual Revenue{" "}
-                  <span className="text-blue-1">{item?.AnnualRevenue}</span>
-                </div>
-              </div>
-              <div className="mt-5">
-                <div className="fw-500">
-                  <span className="text-light-1">{item?.Industry}</span>
-                </div>
-              </div>
             </div>
           </Link>
         </div>

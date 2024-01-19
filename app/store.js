@@ -1,12 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage'; 
+import storage from 'redux-persist/lib/storage';
 import { combineReducers } from '@reduxjs/toolkit';
 import findPlaceSlice from "../features/hero/findPlaceSlice";
 import { UserSlice } from "../features/auth/userslice";
 import { RecentReducer } from "../features/business/recentReducer";
 import { RestaruantReducer } from "../features/business/restaurantReducer";
 import { ListReducer } from "../features/business/listReducer";
+import { SearchSlice } from "../features/business/searchSlice";
+import { BusinessInfoSlice } from "../features/business/businessInfoSlice";
+
 
 const persistConfig = {
   key: 'root',
@@ -19,6 +22,8 @@ const rootReducer = combineReducers({
   Business: RecentReducer,
   Restaurant: RestaruantReducer,
   List: ListReducer,
+  Search: SearchSlice.reducer,
+  BusinessInfo: BusinessInfoSlice.reducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

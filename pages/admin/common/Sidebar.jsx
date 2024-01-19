@@ -15,10 +15,34 @@ const Sidebar = () => {
     },
     {
       id: 2,
-      icon: "/img/dashboard/sidebar/booking.svg",
-      name: " User ",
+      icon: "/img/featureIcons/1/3.svg",
+      name: " All User ",
       routePath: "/admin/user",
-    }
+    },
+    {
+      id: 3,
+      icon: "/img/featureIcons/1/3.svg",
+      name: " Business Owner ",
+      routePath: "/admin/businessowner",
+    },
+    {
+      id: 4,
+      icon: "/img/featureIcons/1/3.svg",
+      name: " City Owner ",
+      routePath: "/admin/cityowner",
+    },
+    {
+      id: 5,
+      icon: "/img/dashboard/sidebar/hotel.svg",
+      name: " Business Management ",
+      routePath: "/admin/business",
+    },
+    {
+      id: 6,
+      icon: "/img/featureIcons/1/2.svg",
+      name: " FAQ ",
+      routePath: "/admin/faq",
+    },
   ];
   return (
     <div className="sidebar -dashboard">

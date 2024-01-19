@@ -11,7 +11,7 @@ const HeaderDashBoard = () => {
   const [navbar, setNavbar] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const user = useSelector((state) => state.User.user);
-  const { initiateUser } = UserSlice.actions;
+  const { initiateUser } = UserSlice.actions
   const dispatch = useDispatch();
 
   const handleToggle = () => {
@@ -44,9 +44,10 @@ const HeaderDashBoard = () => {
   // }, [])
 
   const handleLogout = async () => {
+    console.log('logout')
     localStorage.removeItem("jwt");
-    dispatch(initiateUser({ user: {} }));
-    Router.push("/");
+    dispatch(initiateUser({ user: {} }))
+    Router.push('/');
   };
 
   const headerStyle = {
@@ -104,11 +105,7 @@ const HeaderDashBoard = () => {
 
                 <AvatarDropdown
                   username={user?.finalData?.user?.username}
-                  avatarUrl={
-                    user.avatar
-                      ? user.avatar
-                      : "/img/avatars/user_people_icon.svg"
-                  }
+                  avatarUrl={user.avatar? user.avatar: "/img/avatars/user_people_icon.svg"}
                   handleLogout={handleLogout}
                 />
 

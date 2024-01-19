@@ -4,30 +4,47 @@ import Seo from "../../../../components/common/Seo";
 import Header11 from "../../../../components/header/header-6";
 import CallToActions from "../../../../components/common/CallToActions";
 import DefaultFooter from "../../../../components/footer/footer-6";
+import { setDayOfYear } from "date-fns";
 const FileUpload = () => {
-  const [files, setFile] = useState([]);
-  const [message, setMessage] = useState();
+  const [files, setFiles] = useState([]);
+  const [message, setMessage] = useState('');
+  const [base64Image, setBase64Image] = useState([]);
+  const [images, setImages] = useState([]);
 
   const router = useRouter();
   const id = router.query.id;
 
   const handleFile = (e) => {
-    setMessage("");
-    let file = e.target.files;
+    const file = e.target.files
 
     for (let i = 0; i < file.length; i++) {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        const newBase64Images = [...base64Image, e.target.result];
+        setBase64Image(newBase64Images);
+      };
+
+      reader.readAsDataURL(file[i]);
+
       const fileType = file[i]["type"];
       const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
       if (validImageTypes.includes(fileType)) {
-        setFile([...files, file[i]]);
+        setFiles([...files, file[i]]);
       } else {
         setMessage("only images accepted");
       }
     }
+
   };
 
+  const handleImages = base64Img => {
+    setImages([...images, base64Img])
+  }
+
   const removeImage = (i) => {
-    setFile(files.filter((x) => x.name !== i));
+    setFiles(files.filter((x) => x.name !== i));
+
   };
 
   const handleUpload = async () => {
@@ -50,7 +67,7 @@ const FileUpload = () => {
       if (response.ok) {
         // Handle successful upload
         console.log("Files uploaded successfully.");
-        setFile([]);
+        setFiles([]);
       } else {
         // Handle upload failure
         console.error("Upload failed.");
@@ -140,7 +157,7 @@ const FileUpload = () => {
                     <img
                       className="w-20 rounded-md"
                       style={{ height: "100px" }}
-                      src={URL.createObjectURL(file)}
+                      src={URL?.createObjectURL(file)}
                     />
                   </div>
                 );

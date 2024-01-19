@@ -13,7 +13,7 @@ const RatingsFilter = () => {
       {ratings.map((rating) => (
         <div className="col-auto" key={rating}>
           <button
-            className={`button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100 ${
+            className={`button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-15 rounded-100 ${
               rating === activeRating ? "active" : ""
             }`}
             onClick={() => handleRatingClick(rating)}

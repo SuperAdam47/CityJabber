@@ -15,7 +15,6 @@ import {
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 
-
 const MainMenu = ({ style = "" }) => {
   const router = useRouter();
   const user = useSelector((state) => state.User.user);
@@ -143,18 +142,40 @@ const MainMenu = ({ style = "" }) => {
         >
           <Link href="/hotel/hotel-list-v1">Businesses</Link>
         </li>
-        <li
+        {/* <li
           className={router.pathname === "/blog/blog-list-v2" ? "current" : ""}
         >
           <Link href="/blog/blog-list-v2">Reviews</Link>
-        </li>
+        </li> */}
         <li className={router.pathname === "/contact" ? "current" : ""}>
           <Link href="/contact">Contact</Link>
         </li>
-        {user.role === "admin" && <li className={router.pathname.slice(0, 5) === "/admin" ? "current" : ""}>
-          <Link href="/admin/dashboard">Administrator</Link>
-        </li>}
-
+        <li className={router.pathname === "/faq" ? "current" : ""}>
+          <Link href="/faq">FAQ</Link>
+        </li>
+        {user.role === "admin" && (
+          <li
+            className={
+              router.pathname.slice(0, 5) === "/admin" ? "current" : ""
+            }
+          >
+            <Link href="/admin/dashboard">Administrator</Link>
+          </li>
+        )}
+        {user.role === "business owner" && (
+          <li
+            className={
+              router.pathname === "/businessowner" ? "current" : ""
+            }
+          >
+            <Link href="/businessowner/dashboard">Business Owner</Link>
+          </li>
+        )}
+        {user.role === "user" && (
+          <li className={router.pathname === "/claimcity" ? "current" : ""}>
+            <Link href="/user/claimcity">ClaimCity</Link>
+          </li>
+        )}
       </ul>
     </nav>
   );

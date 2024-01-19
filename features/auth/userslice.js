@@ -43,7 +43,7 @@ const authSlice = createSlice({
     },
     [login.fulfilled]: (state, action) => {
       state.isLoggedIn = true;
-      if(action.payload.success) {
+      if (action.payload.success) {
         state.user = action.payload.finalData.user;
         localStorage.setItem("jwt", action.payload.finalData.token);
       } else {

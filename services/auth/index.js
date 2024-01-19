@@ -24,8 +24,11 @@ export const update_me = async (formData) => {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/updateUser`,
       {
-        method: "POST",
-        body: formData,
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
       }
     );
     const data = res.json();
@@ -51,6 +54,25 @@ export const login_me = async (formData) => {
     return data;
   } catch (error) {
     console.log("error in login (service) => ", error);
+  }
+};
+
+export const change_password = async (formData) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/changePassword`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      }
+    );
+    const data = res.json();
+    return data;
+  } catch (error) {
+    console.log("error in change password (service) => ", error);
   }
 };
 

@@ -1,33 +1,32 @@
 import { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper";
 import Link from "next/link";
-import { AllData } from "../../../features/business/recentReducer";
 import Image from "next/image";
 import Slider from "react-slick";
-const Travellers = () => {
-  const dispatch = useDispatch();
+import { getRecentReviews } from "../../../services/review";
 
-  const [dataSource, setDataSource] = useState([]);
-  const { businessData } = useSelector((state) => state.Business);
+const Travellers = () => {
+  const [reviews, setReviews] = useState([]);
+
+  const getReviewsInPage = async () => {
+    const res = await getRecentReviews();
+    if (res.success) {
+      setReviews(res.reviews);
+    }
+  };
 
   useEffect(() => {
-    dispatch(AllData());
+    getReviewsInPage();
   }, []);
 
-  useEffect(() => {
-    if (businessData?.getAllData !== undefined) {
-      setDataSource(businessData?.getAllData);
-    }
-  }, [businessData?.getAllData]);
-
-  var itemSettings = {
+  const itemSettings = {
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
   };
+
   function ArrowSlick(props) {
     let className =
       props.type === "next"
@@ -50,6 +49,14 @@ const Travellers = () => {
       </button>
     );
   }
+
+  let stars = [
+    <i key={0} className="icon-star text-10 text-yellow-2"></i>,
+    <i key={1} className="icon-star text-10 text-yellow-2"></i>,
+    <i key={2} className="icon-star text-10 text-yellow-2"></i>,
+    <i key={3} className="icon-star text-10 text-yellow-2"></i>,
+    <i key={4} className="icon-star text-10 text-yellow-2"></i>,
+  ];
 
   return (
     <div className="pt-40 overflow-hidden js-section-slider">
@@ -81,7 +88,7 @@ const Travellers = () => {
           },
         }}
       >
-        {dataSource.map((item, index) => (
+        {reviews.map((item, index) => (
           <SwiperSlide key={item?._id}>
             <Link
               href="/tour/tour-list-v1"
@@ -95,25 +102,22 @@ const Travellers = () => {
                     <Image
                       width={50}
                       height={50}
-                      src={!item.reviews
-                        ? "/img/avatars/1.png"
-                        : item.reviews[0].user?.avatar}
+                      // src={"/img/avatars/1.png"}
+                      src={!item.Avatar ? "/img/avatars/1.png" : item.Avatar}
+                      // alt={"item.username"}
                       className="size-50 rounded-22 object-cover "
                     />
                   </div>
                   <div className="col-auto">
                     <div className="text-15 fw-500 lh-14">
-                      {/* {!item.reviews
-                        ? "Dennis Cheeseman"
-                        : item.reviews.map((item1) => {
-                            return item1?.user?.username;
-                          })} */}
-                      {!item.reviews
-                        ? "Dennis Cheeseman"
-                        : item.reviews[0].user?.username}
+                      {!item.UserName ? "Dennis Cheeseman" : item.UserName}
                     </div>
                     <div className="text-14 lh-14 text-light-1 mt-5">
-                      {item.designation}
+                      {item.Content && "Wrote a review."}
+                    </div>
+                    <div className="text-14 lh-14 text-light-1 mt-5">
+                      {item.Images &&
+                        `Added ${item.Images.split(",,").length} photos`}
                     </div>
                   </div>
                 </div>
@@ -124,7 +128,7 @@ const Travellers = () => {
                 nextArrow={<ArrowSlick type="next" />}
                 prevArrow={<ArrowSlick type="prev" />}
               >
-                {item.BImage === null ? (
+                {item.Images === null ? (
                   <div className="cardImage ratio ratio-1:1">
                     <div className="cardImage__content ">
                       <Image
@@ -137,7 +141,8 @@ const Travellers = () => {
                     </div>
                   </div>
                 ) : (
-                  item.BImage.split(",").map((slide, i) => (
+                  item.Images &&
+                  item.Images.split(",,").map((slide, i) => (
                     <div className="cardImage ratio ratio-1:1" key={i}>
                       <div className="cardImage__content ">
                         <Image
@@ -156,7 +161,7 @@ const Travellers = () => {
                 <h4 className="text-18 lh-13 fw-500 text-dark-1">
                   {item?.BusinessName}
                 </h4>
-                <div className="text-14 text-light-1">
+                {/* <div className="text-14 text-light-1">
                   Rating:{item.rating}
                   <div className="d-inline-block ml-10">
                     <i className="icon-star text-10 text-yellow-2"></i>
@@ -165,14 +170,13 @@ const Travellers = () => {
                     <i className="icon-star text-10 text-yellow-2"></i>
                     <i className="icon-star text-10 text-yellow-2"></i>
                   </div>
-                </div>
-
-                {/* <div className="text-14 text-light-1">
-                  {item.travellers} travellers
                 </div> */}
-                <div className="text-14 text-light-1">{item?.Industry}</div>
+                <div className="text-14 text-light-1">
+                  Rating: {!item.Rate ? "" : stars.slice(0, item?.Rate)}
+                </div>
+                <div className="text-14 text-light-1">{item?.BusinessName}</div>
               </div>
-              <div>Continue Reading...</div>
+              {/* <div>Continue Reading...</div> */}
             </Link>
           </SwiperSlide>
         ))}

@@ -13,12 +13,14 @@ const UserTable = () => {
   const [totalPage, setTotalPage] = useState(1)
   const [users, setUsers] = useState([])
   const [modalShow, setModalShow] = useState(false)
+  const [modalInfoShow, setModalInfoShow] = useState(false)
   const [selectedUserId, setSelectedUserId] = useState(1)
+  const [isHovered, setIsHovered] = useState('');
+  const [isAction, setIsAction] = useState(false);
   
   const [selectedRole, setSeletedRole] = useState(null)
   const activeRef = useRef(null)
   const banRef = useRef(null)
-
 
   const handleTabClick = (index) => {
     setActiveTab(index);
@@ -41,6 +43,10 @@ const UserTable = () => {
     getUsersInPage()
   }, [])
 
+  const handleMouseEnter = (id) => {
+    setIsHovered(id);
+  };
+
   const handleTagClick = (pageIndex) => {
     getUsersInPage(pageIndex)
     setCurrentPage(pageIndex)
@@ -49,6 +55,15 @@ const UserTable = () => {
   const handleUpdate = (id) => {
     setSelectedUserId(id)
     setModalShow(true)
+
+  }
+
+  const showUserInfo = (id) => {
+    
+    !isAction && (
+      setSelectedUserId(id),
+      setModalInfoShow(true)
+    )
 
   }
 
@@ -63,6 +78,10 @@ const UserTable = () => {
 
   const handleClose = () => {
     setModalShow(false)
+  }
+
+  const handleInfoClose = () => {
+    setModalInfoShow(false)
   }
 
   const handleSubmit = async (e) => {
@@ -82,6 +101,9 @@ const UserTable = () => {
     setSeletedRole(option)
   }
 
+  const chnageUserInfo = () => {
+
+  }
 
   return (
     <>
@@ -110,21 +132,15 @@ const UserTable = () => {
                     <th> </th>
                     <th>Username</th>
                     <th>Email</th>
-                    <th>Name</th>
-                    <th>BirthDay</th>
-                    <th>Gender</th>
                     <th>Role</th>
-                    <th>Phone Number</th>
-                    <th>Facebook</th>
-                    <th>Twitter</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {
-                    users.map(({ _id, username, email, firstname, lastname, avatar, birthday, gender, role, phonenumber, facebook, twitter, isBanned }, index) =>
-                      <tr key={_id}>
+                    users.map(({ _id, username, email, avatar, role, isBanned }, index) =>
+                      <tr key={_id} onClick={() => showUserInfo(index)} onMouseEnter={() => handleMouseEnter(_id)} id={_id}  style={{ backgroundColor: isHovered === _id ? 'lightblue' : 'white' }}>
                         <td>
                           <Image
                             width={50}
@@ -135,20 +151,14 @@ const UserTable = () => {
                           /></td>
                         <td>{username}</td>
                         <td>{email}</td>
-                        <td>{`${firstname} ${lastname}`}</td>
-                        <td>{birthday.slice(0, 10)}</td>
-                        <td>{gender}</td>
                         <td>{role}</td>
-                        <td>{phonenumber}</td>
-                        <td>{facebook}</td>
-                        <td>{twitter}</td>
                         <td>
                           <span className={`rounded-100 py-4 px-10 text-center text-14 fw-500 ` + (isBanned ? 'bg-error-1 text-error-2' : 'bg-success-1 text-success-2')}>
                             {isBanned ? "Banned" : "Active"}
                           </span>
                         </td>
-                        <td>
-                          <ActionsButton onDelete={handleDelete} onUpdate={handleUpdate} id={_id} index={index} />
+                        <td onMouseEnter={() => setIsAction(true)} onMouseLeave={() => setIsAction(false)} > 
+                          <ActionsButton onDelete={handleDelete} onUpdate={handleUpdate} id={_id} index={index}  />
                         </td>
                       </tr>
                     )}
@@ -169,7 +179,7 @@ const UserTable = () => {
         > <Modal.Title>Update</Modal.Title></Modal.Header>
         <Modal.Body>
           <div className="col-12 text-center mt-10">
-            <form className="row y-gap-20 pt-20" onSubmit={handleSubmit}>
+            <form className="row y-gap-20 pt-20" >
               <div className="col-12">
                 <Image
                   src={users[selectedUserId]?.avatar ? users[selectedUserId]?.avatar : "/img/avatars/user_people_icon.svg"}
@@ -236,14 +246,14 @@ const UserTable = () => {
               <div className="col-12 d-flex mt-30">
                 <div className="col-6 pr-30">
                   <div className="col-md-12 col-12">
-                    <button className="btn col-12 btn-danger">
+                    <button onClick={handleSubmit} className="btn col-12 btn-danger">
                       Update
                     </button>
                   </div>
                 </div>
                 <div className="col-6 pl-30">
                   <div className="col-md-12 col-12">
-                    <button className="btn col-12 btn-primary">
+                    <button onClick={handleClose} className="btn col-12 btn-primary">
                       Close
                     </button>
                   </div>
@@ -254,10 +264,142 @@ const UserTable = () => {
         </Modal.Body>
 
       </Modal>
+
+      <Modal
+        show={modalInfoShow}
+        onHide={handleInfoClose}
+        className="d-flex align-items-center justify-content-center"
+        size='lg'
+      >
+        <Modal.Header
+          closeButton
+          style={{ borderBottom: "none" }}
+        > <Modal.Title>User Information</Modal.Title></Modal.Header>
+        <Modal.Body>
+          <div className="col-12 text-center mt-10">
+          <form>
+        <div className="row y-gap-30 items-center">
+          <div className="d-flex">
+            <div className="d-flex ratio ratio-1:1 w-200 mr-20">
+              <Image
+                width={200}
+                height={200}
+                src={users[selectedUserId]?.avatar ? users[selectedUserId]?.avatar : "/img/avatars/user_people_icon.svg"}
+                // src="/uploads/6581896618f6bbf20dd734c0.png"
+                alt="avatar"
+                className="img-ratio rounded-4"
+              />
+            </div>
+            <div className="row x-gap-20 y-gap-20 text-left">
+                <h4>
+                  {users[selectedUserId]?.username}
+                </h4>
+                <h5>
+                  {users[selectedUserId]?.email}
+                </h5>
+                <h5>
+                  {users[selectedUserId]?.role}
+                </h5>
+            </div>
+        </div>
+
+        <div className="border-top-light mt-30 mb-30" />
+
+          
+            {/* End col-12 */}
+
+            <div className="col-md-6">
+              <div className="form-input ">
+                <input value={users[selectedUserId]?.firstname} name="firstname" type="text" required />
+                <label className="lh-1 text-16 text-light-1">First Name</label>
+              </div>
+            </div>
+            {/* End col-6 */}
+
+            <div className="col-md-6">
+              <div className="form-input ">
+                <input value={users[selectedUserId]?.lastname} name="lastname" type="text" required />
+                <label className="lh-1 text-16 text-light-1">Last Name</label>
+              </div>
+            </div>
+            {/* End col-6 */}
+
+            <div className="col-md-6">
+              <div className="form-input ">
+                <input value={users[selectedUserId]?.phonenumber} name="phone_number" type="text" />
+                <label className="lh-1 text-16 text-light-1">
+                  Phone Number
+                </label>
+              </div>
+            </div>
+
+            <div className="col-md-6">
+              <div className="form-input ">
+                <input value={users[selectedUserId]?.location} name="location" type="text" />
+                <label className="lh-1 text-16 text-light-1">
+                  Location
+                </label>
+              </div>
+            </div>
+            {/* End col-6 */}
+
+            <div className="col-md-6">
+              <div className="form-input ">
+                <input value={users[selectedUserId]?.birthday} name="birthday" type="text" />
+                <label className="lh-1 text-16 text-light-1">
+                  Birthday
+                </label>
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="form-input ">
+                <input value={users[selectedUserId]?.gender} name="gender" type="text" />
+                <label className="lh-1 text-16 text-light-1">
+                  Gender
+                </label>
+              </div>
+            </div>
+            {/* End col-6 */}
+
+            <div className="col-md-6">
+              <div className="form-input ">
+                <input value={users[selectedUserId]?.facebook} name="facebook" type="text" />
+                <label className="lh-1 text-16 text-light-1">facebook</label>
+              </div>
+            </div>
+            {/* End col-6 */}
+
+            <div className="col-md-6">
+              <div className="form-input ">
+                <input value={users[selectedUserId]?.twitter} name="twitter" type="text" />
+                <label className="lh-1 text-16 text-light-1">
+                  Twitter
+                </label>
+              </div>
+            </div>
+
+          </div>
+        {/* End col-xl-9 */}
+        <div className="d-inline-block pt-30">
+          <button
+            className="button h-50 px-24 -dark-1 bg-blue-1 text-white"
+            onClick={chnageUserInfo}
+          >
+            Chnage UserInfo <div className="icon-arrow-top-right ml-15" />
+          </button>
+        </div>
+      </form >
+          </div>
+        </Modal.Body>
+
+      </Modal>
       <Pagination currentPage={currentPage} handleTagClick={handleTagClick} totalPage={totalPage} />
       <ToastContainer />
     </>
   );
 };
 
+
+
 export default UserTable;
+

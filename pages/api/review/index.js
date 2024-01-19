@@ -1,38 +1,45 @@
 import ConnectDB from "../../../DB/connectDB";
-import Business from "../../../models/td_business_total";
+import Review from "../../../models/review";
 
 export default async (req, res) => {
   await ConnectDB();
 
-  const { id, user, avatar, username, rDate, rTitle, rContent, rating } = req.body;
+  const { User, Avatar, UserName, UserEmail, BusinessId, BusinessName, BusinessImages, BusinessPhone, OwnerName, Title, Content, Rate, Images, Created } = req.body;
+
+  function generateRandomString(length) {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  }
+
+  const randomString = generateRandomString(5);
+
   try {
-    Business.findById({ _id: id })
-      .then((item) => {
-        const newReview = {
-          user,
-          avatar,
-          username,
-          rDate,
-          rTitle,
-          rContent,
-          Rated: rating,
-        };
-        item.reviews ? item.reviews.unshift(newReview) : item.reviews = [{
-          user,
-          avatar,
-          username,
-          rDate,
-          rTitle,
-          rContent,
-          Rated: rating,
-        }];
-        item
-          .save()
-          .then(() =>
-            res.status(200).json({ success: true, message: "Successfull" })
-          );
-      })
-      .catch((err) => console.log(err));
+    const createUser = await Review.create({
+      UserId: User,
+      Avatar,
+      UserName,
+      UserEmail,
+      BusinessId,
+      BusinessName,
+      BusinessImages,
+      BusinessPhone,
+      OwnerName,
+      Title,
+      Content,
+      Rate,
+      Images,
+      CollapseTarget: randomString,
+      CreatedDate: Created
+    });
+    return res
+      .status(201)
+      .json({ success: true, message: "Account created successfully" });
+
   } catch (error) {
     console.log("Error in register (server) => ", error);
     return res.status(500).json({

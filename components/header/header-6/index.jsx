@@ -12,6 +12,9 @@ import Router from "next/router";
 import Image from "next/image";
 import AvatarDropdown from "./UserAvatar";
 import { UserSlice } from "../../../features/auth/userslice";
+import MainFilterSearchBox from "../../../components/hotel-list/hotel-list-v1/MainFilterSearchBox";
+
+import { useRouter } from "next/router";
 
 const Header1 = () => {
   const [navbar, setNavbar] = useState(false);
@@ -21,6 +24,8 @@ const Header1 = () => {
   const [byEmail, setByEmail] = useState(false);
   const { initiateUser } = UserSlice.actions;
   const dispatch = useDispatch();
+
+  const router = useRouter();
 
   const user = useSelector((state) => state.User.user);
   let token = "";
@@ -64,6 +69,7 @@ const Header1 = () => {
   const handleLogout = async () => {
     localStorage.removeItem("jwt");
     dispatch(initiateUser({ user: {} }));
+    Router.push("/");
   };
 
   useEffect(() => {
@@ -92,6 +98,18 @@ const Header1 = () => {
                     alt="logo icon"
                   />
                 </Link>
+                {router.pathname === "/" ? (
+                  ""
+                ) : (
+                  <div className="container">
+                    <div className="row">
+                      <div className="col-12">
+                        <MainFilterSearchBox />
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {/* End logo */}
               </div>
               {/* End d-flex */}

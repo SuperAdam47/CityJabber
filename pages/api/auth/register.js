@@ -16,21 +16,20 @@ export default async (req, res) => {
   await ConnectDB();
   let { email, password, username, avatar, birthday, gender, filepath } = req.body;
 
-  console.log('req===>', req.body)
-  const base64Data = avatar.replace(/^data:image\/\w+;base64,/, '');
+  // const base64Data = avatar.replace(/^data:image\/\w+;base64,/, '');
 
-  const imageBuffer = Buffer.from(base64Data, 'base64');
+  // const imageBuffer = Buffer.from(base64Data, 'base64');
 
 
-  fs.writeFile(filepath, imageBuffer, 'base64', function (err) {
-    if (err) {
-      // Handle error
-      return res.status(500).send('Error occurred while saving the image.');
-    }
+  // fs.writeFile(filepath, imageBuffer, 'base64', function (err) {
+  //   if (err) {
+  //     // Handle error
+  //     return res.status(500).send('Error occurred while saving the image.');
+  //   }
 
-    // Image saved successfully
-    avatar = filepath;
-  });
+  //   // Image saved successfully
+  //   avatar = filepath;
+  // });
 
   const { error } = schema.validate({
     email,
@@ -57,7 +56,8 @@ export default async (req, res) => {
         email,
         username,
         password: hashedPassword,
-        avatar: avatar.slice(6, avatar.length),
+        avatar,
+        // avatar: avatar.slice(6, avatar.length),
         birthday,
         gender,
       });

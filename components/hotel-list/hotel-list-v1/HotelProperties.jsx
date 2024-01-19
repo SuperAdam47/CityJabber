@@ -10,6 +10,8 @@ const HotelProperties = ({ listData }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedItem, setSelectedItem] = useState(10);
 
+  console.log('listData==>', listData)
+
   const handleItemClick = (value) => {
     setSelectedItem(value);
   };
@@ -18,6 +20,7 @@ const HotelProperties = ({ listData }) => {
   };
   return (
     <>
+    <h2 className="sectionTitle__title mt-50 pb-0" >Businesses</h2>
       {listData
         .filter(
           (item, index) =>
@@ -51,7 +54,8 @@ const HotelProperties = ({ listData }) => {
                               />
                             </SwiperSlide>
                           ) : (
-                            item.BImage.split(",").map((slide, i) => (
+                            item.BImage && item.BImage.split(",,").map((slide, i) => (
+                              
                               <SwiperSlide key={i}>
                                 <Image
                                   width={250}
@@ -81,29 +85,33 @@ const HotelProperties = ({ listData }) => {
                   <div className="row x-gap-10 y-gap-10 items-center">
                     <div className="col-md">
                       <h3 className="text-18 lh-16 fw-500">
-                        <Link href={`/hotel/${item._id}`}>
+                        <Link href={`/hotel/${item._id}`} >
                           {i + (currentPage - 1) * selectedItem + 1}.&nbsp;
                           {item?.BusinessName} &nbsp;
-                        </Link>
+                        </Link>{" "}
+                        
+                        <div className="d-flex mt-10">
+                          <div style={{marginLeft: "2px", backgroundColor: "#f77100", borderRadius: "50%", border: "solid, gray, 01px", display: "flex", justifyContent: "center", alignItems: "center", padding: "5px"}}>
+                            <i className="icon-star text-15 text-white" />
+                          </div>
+                          <div style={{marginLeft: "2px", backgroundColor: "#f77100", borderRadius: "50%", border: "solid, gray, 01px", display: "flex", justifyContent: "center", alignItems: "center", padding: "5px"}}>
+                            <i className="icon-star text-15 text-white" />
+                          </div>
+                          <div style={{marginLeft: "2px", backgroundColor: "#f77100", borderRadius: "50%", border: "solid, gray, 01px", display: "flex", justifyContent: "center", alignItems: "center", padding: "5px"}}>
+                            <i className="icon-star text-15 text-white" />
+                          </div>
+                          <div style={{marginLeft: "2px", backgroundColor: "#f77100", borderRadius: "50%", border: "solid, gray, 01px", display: "flex", justifyContent: "center", alignItems: "center", padding: "5px"}}>
+                            <i className="icon-star text-15 text-white" />
+                          </div>
+                          <div style={{marginLeft: "2px", backgroundColor: "#f77100", borderRadius: "50%", border: "solid, gray, 01px", display: "flex", justifyContent: "center", alignItems: "center", padding: "5px"}}>
+                            <i className="icon-star text-15 text-white" />
+                          </div>
+                        </div>{" "}
                         <br className="lg:d-none" />
                       </h3>
-                      <div style={{display: "flex"}}>
-                        <div style={{width: "25px", height: "25px", borderRadius: "50%", border: "0.1px solid rgb(205, 209, 215)", backgroundColor: "#f77100", display: "flex", justifyContent: "center", alignItems: "center"}}>
-                          <i className="icon-star text-15 text-white"></i>
-                        </div>
-                        <div style={{width: "25px", height: "25px", borderRadius: "50%", border: "0.1px solid rgb(205, 209, 215)", backgroundColor: "#f77100", display: "flex", justifyContent: "center", alignItems: "center"}}>
-                          <i className="icon-star text-15 text-white"></i>
-                        </div>
-                        <div style={{width: "25px", height: "25px", borderRadius: "50%", border: "0.1px solid rgb(205, 209, 215)", backgroundColor: "#f77100", display: "flex", justifyContent: "center", alignItems: "center"}}>
-                          <i className="icon-star text-15 text-white"></i>
-                        </div>
-                        <div style={{width: "25px", height: "25px", borderRadius: "50%", border: "0.1px solid rgb(205, 209, 215)", backgroundColor: "#f77100", display: "flex", justifyContent: "center", alignItems: "center"}}>
-                          <i className="icon-star text-15 text-white"></i>
-                        </div>
-                        <div style={{width: "25px", height: "25px", borderRadius: "50%", border: "0.1px solid rgb(205, 209, 215)", backgroundColor: "#f77100", display: "flex", justifyContent: "center", alignItems: "center"}}>
-                          <i className="icon-star text-15 text-white"></i>
-                        </div>
-                      </div>{" "}
+                      {/* <h3 className="text-15 lh-12 fw-500">
+                        {item?.Address}, {item?.City}
+                      </h3> */}
                     </div>
                     <div className="col-md-auto text-right md:text-left">
                       <div className="row x-gap-10 y-gap-10 justify-end items-center md:justify-start">
@@ -123,17 +131,17 @@ const HotelProperties = ({ listData }) => {
                       </div>
                     </div>
                   </div>
-                  <div className="row x-gap-10 y-gap-10 items-center">
+                  {/* <div className="row x-gap-10 y-gap-10 items-center"> */}
                     <div className="col-auto">
                       {/* <p className="text-15">
                         {item?.SIC2Category} / {item?.SIC4Category} /
                         {item?.SIC8Category}{" "}
                       </p> */}
                       <p className="text-15">
-                        {item?.SIC2Category}
+                        {item?.City}
                       </p>
                     </div>
-                  </div>
+                  {/* </div> */}
                   <div className="row x-gap-10 y-gap-10 items-center">
                     <div className="col-md">
                       <div className="col-auto">
@@ -144,38 +152,32 @@ const HotelProperties = ({ listData }) => {
                           Show on map
                         </button>
                       </div>
-                      <div className="text-14 lh-10 mt-20">
+                      {/* <div className="text-14 lh-10 mt-20">
                         <div className="fw-500">{item?.MarketVariable}</div>
-                      </div>
-                      <div className="row x-gap-10 y-gap-10 pt-20">
+                      </div> */}
+                      <div className="row x-gap-10 y-gap-10 pt-30">
                         <div className="col-auto">
                           <div className="border-light rounded-100 py-5 px-20 text-14 lh-14">
-                            Breakfast
+                            {item?.SIC2Category}
                           </div>
                         </div>
 
                         <div className="col-auto">
                           <div className="border-light rounded-100 py-5 px-20 text-14 lh-14">
-                            WiFi
+                          {item?.SIC4Category}
                           </div>
                         </div>
 
                         <div className="col-auto">
                           <div className="border-light rounded-100 py-5 px-20 text-14 lh-14">
-                            Spa
-                          </div>
-                        </div>
-
-                        <div className="col-auto">
-                          <div className="border-light rounded-100 py-5 px-20 text-14 lh-14">
-                            Bar
+                            {item?.SIC8Category}
                           </div>
                         </div>
                       </div>
                     </div>
                     <div className="col-md-auto">
                       <div className="">
-                        <div className="text-16 lh-12 fw-600 mt-50 md:mt-20">
+                        <div className="text-16 lh-12 fw-600 mt-30 md:mt-20">
                           {item?.AnnualRevenue}
                         </div>
                         <Link

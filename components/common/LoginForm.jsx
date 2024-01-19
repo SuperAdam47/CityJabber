@@ -2,15 +2,30 @@ import Cookies from "js-cookie";
 import Router from "next/router";
 import { useEffect } from "react";
 import { useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { login } from "../../features/auth/userslice";
+import { getBusiness } from "../../services/business";
+import { BusinessInfoSlice } from "../../features/business/businessInfoSlice";
 
 const LoginForm = (props) => {
   const dispatch = useDispatch();
+
+  const {
+    initiateBusinessInfo,
+    removeBusinessInfo,
+  } = BusinessInfoSlice.actions;
+
   const emailRef = useRef();
   const passwordRef = useRef();
+
+  const getBusinessInfo = async (userId) => {
+    const res = await getBusiness(userId);
+    if (res.business.length > 0) {
+      dispatch(initiateBusinessInfo({ ...res.business[0], UserId: userId }));
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,6 +39,10 @@ const LoginForm = (props) => {
     };
     dispatch(login(loginData))
       .then((res) => {
+        res.payload.finalData.user.role === "business owner"
+          ? getBusinessInfo(res.payload.finalData.user._id)
+          : dispatch(removeBusinessInfo());
+
         toast.success(res.message);
         setTimeout(() => {
           props.handleClose();

@@ -4,21 +4,50 @@ import Business from "../../../models/td_business_total";
 export default async (req, res) => {
   await ConnectDB();
 
-  const { city, category, state } = req.body;
+  let { city, categoryLevel, category, state } = req.body;
+
   try {
-    const getAllData = await Business.find({
-      City: { $regex: city, $options: "i" },
-      // StateCode: "AK",
-      $or: [
-        { SIC2Category: { $regex: category, $options: "i" } },
-        { SIC4Category: { $regex: category, $options: "i" } },
-        { SIC8Category: { $regex: category, $options: "i" } },
-      ],
-    }).limit(10000);
-    if (!getAllData)
+    let getAllData = [];
+    if (categoryLevel.length !== 0) {
+
+      getAllData = await Business.find({
+        City: { $regex: city, $options: "i" },
+        StateCode: { $regex: state, $options: "i" },
+        $or: categoryLevel.map(level => ({
+          [level]: { $regex: category, $options: "i" }
+        }))
+        // $or: [
+        //   { SIC2Category: { $regex: category, $options: "i" } },
+        //   { SIC4Category: { $regex: category, $options: "i" } },
+        //   { SIC8Category: { $regex: category, $options: "i" } },
+        // ],
+      }).limit(10000);
+    } else {
+      if (city) {
+        getAllData = await Business.find({
+          City: { $regex: city, $options: 'i' },
+          StateCode: { $regex: state, $options: "i" },
+          $or: [
+            { SIC2Category: { $regex: category, $options: "i" } },
+          ],
+        }
+        ).limit(10000)
+      }
+      else {
+        getAllData = await Business.find({
+          SIC2Category: { $regex: category, $options: "i" },
+        }).limit(10000);
+      }
+
+    }
+
+    if (!getAllData) {
+
       return res
         .status(401)
         .json({ success: false, message: "Data not found!" });
+    }
+
     return res
       .status(200)
       .json({ success: true, message: "Successfully!", getAllData });

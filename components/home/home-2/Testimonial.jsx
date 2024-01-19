@@ -5,18 +5,24 @@ import { Navigation, Pagination } from "swiper";
 import { EffectCards } from "swiper";
 import axios from "axios";
 import Image from "next/image";
-const Testimonial = () => {
-  const [dataSource, setDataSource] = useState([]);
+import { getRecentReviews } from "../../../services/review"
 
-  const handleItem = async () => {
-    const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/review/list`
-    );
-    setDataSource(res.data.getAllData);
-  };
+
+
+const Testimonial = () => {
+  const [reviews, setReviews] = useState([])
+
+  
+  const getReviewsInPage = async () => {
+    const res = await getRecentReviews()
+    if (res.success) {
+        setReviews(res.reviews)
+    }
+  }
+
   useEffect(() => {
-    handleItem();
-  }, []);
+    getReviewsInPage()
+  }, [])
 
   return (
     <>
@@ -34,37 +40,33 @@ const Testimonial = () => {
             clickable: true,
           }}
         >
-          {dataSource.map((item) => (
+          {reviews.map((item) => (
             <SwiperSlide key={item._id}>
               <div className="testimonials -type-1 bg-white rounded-4 pt-40 pb-30 px-40 shadow-2">
                 <div>
                   <h4 className="text-16 fw-500 text-blue-1 mb-10">
-                    {item.BusinessName}
+                    About CityJabber
                   </h4>
-                  <p className="testimonials__text lh-12 fw-500 text-dark-1">
-                    {item?.Industry}
-                  </p>
                   <div className="pt-20 mt-28 border-top-light">
                     <div className="row x-gap-20 y-gap-20 items-center">
                       <div className="col-auto">
                         <Image
                           width={30}
                           height={30}
-                          src={"/img/avatars/1.png"}
+                          // src={"/img/avatars/1.png"}
+                          src={!item.Avatar
+                            ? "/img/avatars/1.png"
+                            : item.Avatar}
                           alt={"Avatars"}
                           className="size-50 rounded-22 object-cover"
                         />
                       </div>
                       <div className="col-auto">
                         <div className="text-15 fw-500 lh-14">
-                          {!item.reviews
-                            ? "Dennis Cheeseman"
-                            : item?.reviews?.map((item1) => {
-                                return item1?.user?.username;
-                              })}
+                          {item.UserName}
                         </div>
                         <div className="text-14 lh-14 text-light-1 mt-5">
-                          {item.designation}
+                          This site is truly user-friendly and promotes economic development.
                         </div>
                       </div>
                     </div>

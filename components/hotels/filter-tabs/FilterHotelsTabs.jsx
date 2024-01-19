@@ -1,16 +1,15 @@
 import { useState } from "react";
 
-const FilterTabsHotels3 = () => {
-  const [filterOption, setFilterOption] = useState("hotel");
+const FilterTabsHotels3 = ({setCategory}) => {
+  const [filterOption, setFilterOption] = useState("");
 
   const filterOptions = [
-    { label: "All", value: "hotel" },
-    { label: "Restaurant", value: "tour" },
-    { label: "Activity", value: "activity" },
-    { label: " Home Service", value: "holiday_rentals" },
-    { label: "Car", value: "car" },
-    { label: "Shop", value: "cruise" },
-    { label: "Hotel", value: "flights" },
+    { label: "Advertising", value: "Advertising & Marketing" },
+    { label: "Building", value: "Building & Construction" },
+    { label: "Education", value: "Educational Services" },
+    { label: "Healthcare", value: "Healthcare" },
+    { label: "Shopping", value: "Shopping & Stores" },
+    { label: "Computer", value: "Computer Software" },
     // add more options as needed
   ];
 
@@ -22,7 +21,10 @@ const FilterTabsHotels3 = () => {
             className={`tabs__button text-14 fw-500 px-20 py-10 rounded-4 bg-light-2 js-tabs-button ${
               filterOption === option.value ? "is-tab-el-active" : ""
             }`}
-            onClick={() => setFilterOption(option.value)}
+            onClick={() => {
+              setFilterOption(option.value)
+              setCategory(option.value)
+            } }
           >
             {option.label}
           </button>

@@ -1,7 +1,6 @@
 import React from "react";
 import CallToActions from "../../components/common/CallToActions";
 import Seo from "../../components/common/Seo";
-// import DefaultHeader from "../../components/header/default-header";
 import DefaultHeader from "../../components/header/header-6";
 import DefaultFooter from "../../components/footer/footer-6";
 import LocationTopBar from "../../components/common/LocationTopBar";

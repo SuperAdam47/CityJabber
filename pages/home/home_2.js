@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import dynamic from "next/dynamic";
 import Seo from "../../components/common/Seo";
 import Footer2 from "../../components/footer/footer-6";
@@ -13,7 +15,9 @@ import FilterHotelsTabs from "../../components/hotels/filter-tabs/FilterHotelsTa
 import FilterHotels from "../../components/hotels/FilterHotels";
 import Link from "next/link";
 
-const home_2 = () => {
+const Home_2 = () => {
+  const [category, setCategory] = useState("");
+
   return (
     <>
       <Seo pageTitle="LocalBusiness" />
@@ -92,7 +96,7 @@ const home_2 = () => {
             {/* End .col-auto */}
 
             <div className="col-auto tabs -pills-2 ">
-              <FilterHotelsTabs />
+              <FilterHotelsTabs setCategory={setCategory} />
             </div>
             {/* End .col-auto */}
           </div>
@@ -100,7 +104,7 @@ const home_2 = () => {
 
           <div className="relative overflow-hidden pt-40 sm:pt-20">
             <div className="row y-gap-30">
-              <FilterHotels />
+              <FilterHotels selectedCategory={category} />
             </div>
           </div>
           <div className="row justify-center pt-60">
@@ -141,4 +145,4 @@ const home_2 = () => {
   );
 };
 
-export default dynamic(() => Promise.resolve(home_2), { ssr: false });
+export default dynamic(() => Promise.resolve(Home_2), { ssr: false });

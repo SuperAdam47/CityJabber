@@ -33,6 +33,8 @@ const PersonalInfo = () => {
   const [avatar, setAvatar] = useState(null);
   const [newAvatar, setNewAvatar] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [filepath, setFilepath] = useState('');
+  const [base64Image, setBase64Image] = useState('');
 
   const handlesSubmit = async (e) => {
     e.preventDefault()
@@ -48,34 +50,47 @@ const PersonalInfo = () => {
     const twitter = twitterRef.current.value
 
     const selectedGender = maleInputRef.current.checked ? maleInputRef.current.value : femaleInputRef.current.value
-    const selectedBirthdate = selectedDate.toLocaleString("default", { year: "numeric" });
-
-    console.log(username, email, role, firstname, lastname, phonenumber, location, aboutMe, facebook, twitter, selectedGender, selectedBirthdate)
+    const selectedBirthdate = selectedDate.toLocaleString("default", { year: "numeric", month: "short", day: "numeric" });
 
     // Example: You can send this data to your backend for user registration
-    const body = new FormData();
-    body.append("file", newAvatar);
-    body.append("id", user._id);
-    body.append("username", username);
-    body.append("firstname", firstname);
-    body.append("lastname", lastname);
-    body.append("phonenumber", phonenumber);
-    body.append("location", location);
-    body.append("aboutMe", aboutMe);
-    body.append("facebook", facebook);
-    body.append("twitter", twitter);
-    body.append("gender", selectedGender);
-    body.append("birthday", selectedBirthdate);
+    // const body = new FormData();
+    // body.append("file", newAvatar);
+    // body.append("id", user._id);
+    // body.append("username", username);
+    // body.append("firstname", firstname);
+    // body.append("lastname", lastname);
+    // body.append("phonenumber", phonenumber);
+    // body.append("location", location);
+    // body.append("aboutMe", aboutMe);
+    // body.append("facebook", facebook);
+    // body.append("twitter", twitter);
+    // body.append("gender", selectedGender);
+    // body.append("birthday", selectedBirthdate);
 
-    console.log("form", body)
+    let formData = {
+      id: user._id,
+      username,
+      email,
+      role,
+      firstname,
+      lastname,
+      phonenumber,
+      location,
+      aboutMe,
+      facebook,
+      twitter,
+      gender: selectedGender,
+      birthday: selectedBirthdate,
+      avatar: base64Image,
+      filepath
+    }
 
-    const res = await update_me(body);
+    const res = await update_me(formData);
 
     if (res.success) {
       console.log(res)
       dispatch(initiateUser({user: res.user}))
       toast.success(res.message);
-      console.log("llllllog", res.user)
     } else {
       toast.error(res.message);
     }
@@ -83,9 +98,19 @@ const PersonalInfo = () => {
 
   const handleAvatarChange = (event) => {
     const file = event.target.files[0];
+    const reader = new FileReader();
+    
+    reader.onload = () => {
+      const base64 = reader.result;
+      setBase64Image(base64);
+    };
+
     if (file) {
       setNewAvatar(file);
+      reader.readAsDataURL(file);
     }
+
+    setFilepath('/img/avatars/' + 'avatar_' + Date.now() + '.png')
   };
 
   const handleDateChange = (date) => {
@@ -94,16 +119,16 @@ const PersonalInfo = () => {
 
   useEffect(() => {
     const { username, email, role, firstname, lastname, phonenumber, location, aboutMe, facebook, twitter, gender, birthday } = user
-    usernameRef.current.value = username
-    emailRef.current.value = email
-    roleRef.current.value = role
-    firstnameRef.current.value = firstname
-    lastnameRef.current.value = lastname
-    phoneRef.current.value = phonenumber
-    locationRef.current.value = location
-    aboutmeRef.current.value = aboutMe
-    facebookRef.current.value = facebook
-    twitterRef.current.value = twitter
+    usernameRef.current.value = username || ''
+    emailRef.current.value = email || ''
+    roleRef.current.value = role || ''
+    firstnameRef.current.value = firstname || ''
+    lastnameRef.current.value = lastname || ''
+    phoneRef.current.value = phonenumber || ''
+    locationRef.current.value = location || ''
+    aboutmeRef.current.value = aboutMe || ''
+    facebookRef.current.value = facebook || ''
+    twitterRef.current.value = twitter || ''
 
     gender === "male" ? maleInputRef.current.checked = true : femaleInputRef.current.checked = true
     setSelectedDate(new Date(birthday))

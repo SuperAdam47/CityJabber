@@ -2,13 +2,15 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CallToActions from "../../../components/common/CallToActions";
 import Seo from "../../../components/common/Seo";
-import Header11 from "../../../components/header/header-6";
+import Header6 from "../../../components/header/header-6";
 import DefaultFooter from "../../../components/footer/footer-6";
 import MainFilterSearchBox from "../../../components/hotel-list/hotel-list-v1/MainFilterSearchBox";
 import TopHeaderFilter from "../../../components/hotel-list/hotel-list-v1/TopHeaderFilter";
 import HotelProperties from "../../../components/hotel-list/hotel-list-v1/HotelProperties";
 import Sidebar from "../../../components/hotel-list/hotel-list-v1/Sidebar";
 import { AllData } from "../../../features/business/listReducer";
+import Travellers from "./Travellers"
+import SponsorBusinesses from "./SponsorBusinesses";
 
 const Index = () => {
   const dispatch = useDispatch();
@@ -17,6 +19,7 @@ const Index = () => {
   const [searchData, setSearchData] = useState({
     city: "",
     category: "",
+    categoryLevel: [],
     state: "",
   });
   const { listData } = useSelector((state) => state.List);
@@ -27,11 +30,14 @@ const Index = () => {
   const Search = () => {
     dispatch(AllData(searchData));
   };
+  const handleCategoryLevel = (level) => {
+    setSearchData({...searchData, categoryLevel: level})
+  };
   useEffect(() => {
-    if (listData.getAllData !== undefined) {
-      setDataSource(listData.getAllData);
+    if (listData?.getAllData !== undefined) {
+      setDataSource(listData?.getAllData);
     }
-  }, [listData.getAllData]);
+  }, [listData?.getAllData]);
 
   return (
     <>
@@ -41,35 +47,68 @@ const Index = () => {
       <div className="header-margin"></div>
       {/* header top margin */}
 
-      <Header11 colorstate={true} />
+      <Header6 colorstate={true} />
       {/* End Header 1 */}
 
-      <section className="pt-40 pb-40 bg-light-2">
+      {/* <section className="layout-pt-md layout-pb-md">
+        <div className="container">
+          <div className="row y-gap-20 justify-between items-end">
+            <div className="col-auto">
+              <div className="sectionTitle -md">
+                <h2 className="sectionTitle__title">Sponosr Businesses</h2>
+                
+              </div>
+            </div>
+
+            <div className="col-auto">
+              <div className="d-flex x-gap-15 items-center justify-center pt-40 sm:pt-20">
+                <div className="col-auto">
+                  <button className="d-flex items-center text-24 arrow-left-hover js-places-prev">
+                    <i className="icon icon-arrow-left" />
+                  </button>
+                </div>
+
+                <div className="col-auto">
+                  <div className="pagination -dots text-border js-places-pag" />
+                </div>
+                
+
+                <div className="col-auto">
+                  <button className="d-flex items-center text-24 arrow-right-hover js-places-next">
+                    <i className="icon icon-arrow-right" />
+                  </button>
+                </div>
+                
+              </div>
+            </div>
+            
+          </div>
+          
+
+          <Travellers />
+          
+        </div>
+        
+      </section> */}
+
+      {/* <section className="pt-40 pb-40 bg-light-2">
         <div className="container">
           <div className="row">
             <div className="col-12">
-              <div className="text-center">
-                <h1 className="text-30 fw-600">Find Your Dream Luxury Hotel</h1>
-              </div>
-              {/* End text-center */}
-              <MainFilterSearchBox
-                handleChangeData={handleDataChange}
-                data={searchData}
-                handleSearch={Search}
-              />
+              <MainFilterSearchBox />
             </div>
-            {/* End col-12 */}
+            
           </div>
         </div>
-      </section>
-      {/* Top SearchBanner */}
+      </section> */}
+      
 
       <section className="layout-pt-md layout-pb-lg">
         <div className="container">
           <div className="row y-gap-30">
             <div className="col-xl-3">
               <aside className="sidebar y-gap-40 xl:d-none">
-                <Sidebar />
+                <Sidebar handleCategoryLevel={handleCategoryLevel} />
               </aside>
               {/* End sidebar for desktop */}
 
@@ -103,9 +142,12 @@ const Index = () => {
             {/* End col */}
 
             <div className="col-xl-9 ">
-              <TopHeaderFilter />
+              <TopHeaderFilter listData={dataSource} />
               <div className="mt-30"></div>
               {/* End mt--30 */}
+              <div className="row y-gap-30">
+                <SponsorBusinesses listData={dataSource} />
+              </div>
               <div className="row y-gap-30">
                 <HotelProperties listData={dataSource} />
               </div>
