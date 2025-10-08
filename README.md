@@ -1,4 +1,88 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+CityJabber is a web platform for discovering local businesses, reviews, and city-specific content. Built with React, Redux, Node/Express, Socket.io, and MongoDB/Mongoose, it features a modern, responsive design and advanced search capabilities.
+
+Features
+Home Page
+
+Detects user’s city automatically, with the option to change it.
+
+Search for businesses like Yelp, filtered by city and category.
+
+Login details displayed at the top (Email/Facebook/Google).
+
+Highlights best places in top cities and latest posts.
+
+User Types
+
+Regular User – Standard features.
+
+City Manager – Manage cities, payments, and sponsored content.
+
+Business Owner – Claim businesses, manage listings, reviews, and ads.
+
+Notes:
+
+Users can log in via Email, Facebook, or Google.
+
+The system prevents duplicate accounts from multiple login methods.
+
+Emails for account confirmation, welcome, and password recovery.
+
+Search & Results
+
+Full-text search for millions of businesses.
+
+Supports SIC2, SIC4, SIC8 category filtering for precise results.
+
+Listings include business name, categories, star rating, “Been here?” functionality, and top reviews.
+
+Search results layout inspired by TripAdvisor, with filters on the left.
+
+Business Listings
+
+Displays full business details: Name, rating, categories, address, photos, amenities, and about section.
+
+Shows whether a business is claimed or unclaimed, with the option to claim.
+
+Features include: Reviews, Add Photo, Share, Save, Q&A with voting/reporting.
+
+Review System
+
+Users can write reviews only when logged in.
+
+Rating system varies by business type (restaurants, hotels, attractions).
+
+Review includes title, description, rating, photos, and advice.
+
+Owners can reply; reviews and Q&A can be reported or liked.
+
+Business & City Management
+
+Business owners can claim and manage their business listings.
+
+Options for Enhanced Business Profile and Sponsored Listings with Stripe payment integration.
+
+City managers can claim cities, view payments, and manage sponsored content.
+
+User & Business Dashboards
+
+User Dashboard includes:
+
+Profile settings, photo, birthday, city, social links.
+
+Messages, notifications, collections (bookmarks), reviews, questions, followers/following.
+
+Business Dashboard includes:
+
+Activity overview (views, reviews, shares, saves).
+
+Business management: update info, manage photos, respond to messages/reviews, customize ads, special offers, and announcements.
+
+City Manager Dashboard includes:
+
+Payment settings and statistics.
+
+Manage businesses and sponsored listings in the city.
 
 ## Getting Started
 
